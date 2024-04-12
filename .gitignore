@@ -1,0 +1,11 @@
+# Project exclude paths
+/payment_back/payment_admin/target/
+/payment_back/payment_gateway/target/
+/payment_back/payment_order/target/
+/payment_uniapp/payment_apply_modify/target/
+/payment_uniapp/payment_gateway_app/target/
+/payment_uniapp/payment_order_app/target/
+/payment_uniapp/payment_payment/target/
+/payment_uniapp/payment_payout/target/
+/payment_uniapp/payment_store/target/
+/payment_uniapp/payment_user/target/

@@ -1,0 +1,15 @@
+spring:
+  cloud:
+    nacos:
+      server-addr: 121.37.212.46:8848
+      username: nacos
+      password: nacos
+      discovery:
+        group: DEFAULT_GROUP
+      config:   #主配置
+        namespace: 5b91a1d6-d48d-4db6-b1a8-bc90187ce15b
+        file-extension: yml
+        name: redis-config
+        refresh-enabled: true  #配置中心文件改了，默认会更新上来
+#        shared-configs:     #共享配置
+#          - data-id:

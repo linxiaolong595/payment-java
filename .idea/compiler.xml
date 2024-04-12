@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="payment_admin" />
+        <module name="payment_pojo" />
+        <module name="payment_gateway" />
+        <module name="payment_user" />
+        <module name="payment_order_app" />
+        <module name="payment_mapper" />
+        <module name="payment_store" />
+        <module name="payment_payout" />
+        <module name="payment_order" />
+        <module name="payment_util" />
+        <module name="payment_apply_modify" />
+        <module name="payment_gateway_app" />
+        <module name="payment_payment" />
+      </profile>
+    </annotationProcessing>
+  </component>
+</project>

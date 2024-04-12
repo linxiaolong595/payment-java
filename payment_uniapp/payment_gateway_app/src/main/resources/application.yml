@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: payment-gateway-app #给微服务取个名字，也是注册到nacos上的名字
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true     #开启动态路由
+#    sentinel:
+#      transport:
+#        dashboard: 121.37.212.46:8888
+
+
+server:
+  port: 8100
