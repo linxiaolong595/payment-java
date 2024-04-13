@@ -31,7 +31,6 @@
   <!-- 依赖管理，这里的依赖不会被导入,统一版本 -->
   <dependencyManagement>
     <dependencies>
-
       <dependency>
         <!-- springboot依赖 -->
         <groupId>org.springframework.boot</groupId>
@@ -89,7 +88,6 @@
         <type>pom</type>
         <scope>import</scope>
       </dependency>
-
     </dependencies>
   </dependencyManagement>
 
