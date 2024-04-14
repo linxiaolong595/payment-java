@@ -8,6 +8,8 @@
     <file url="file://$PROJECT_DIR$/payment_back/payment_order/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/payment_back/payment_order/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/payment_common/payment_mapper/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/payment_common/payment_pojo/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/payment_common/payment_util/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/payment_uniapp/payment_apply_modify/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/payment_uniapp/payment_apply_modify/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/payment_uniapp/payment_gateway_app/src/main/java" charset="UTF-8" />
