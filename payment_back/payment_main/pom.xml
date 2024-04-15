@@ -10,9 +10,9 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>payment_order</artifactId>
+    <artifactId>payment_mian</artifactId>
 
-    <name>payment_order</name>
+    <name>payment_main</name>
     <!-- FIXME change it to the project's website -->
     <url>http://www.example.com</url>
 
@@ -41,6 +41,7 @@
 <!--            <groupId>org.mybatis.spring.boot</groupId>-->
 <!--            <artifactId>mybatis-spring-boot-starter</artifactId>-->
 <!--        </dependency>-->
+
 
 
         <!-- 注册中心 -->

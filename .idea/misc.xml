@@ -8,6 +8,7 @@
         <option value="$PROJECT_DIR$/payment_common/pom.xml" />
         <option value="$PROJECT_DIR$/payment_uniapp/pom.xml" />
         <option value="$PROJECT_DIR$/payment_uniapp/payment_other/pom.xml" />
+        <option value="$PROJECT_DIR$/payment_back/payment_main/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">

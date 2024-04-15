@@ -9,8 +9,8 @@
         <outputRelativeToContentRoot value="true" />
         <module name="payment_pojo" />
         <module name="payment_gateway" />
+        <module name="payment_main" />
         <module name="payment_mapper" />
-        <module name="payment_order" />
         <module name="payment_other" />
         <module name="payment_util" />
         <module name="payment_gateway_app" />
