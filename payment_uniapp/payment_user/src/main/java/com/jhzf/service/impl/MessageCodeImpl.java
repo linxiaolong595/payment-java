@@ -22,7 +22,7 @@ public class MessageCodeImpl implements MessageCode {
     @Override
     public boolean send(Map map, String phone) {
         if(StringUtils.isEmpty(phone)) return false;
-
+        
         Config config = new Config().setAccessKeyId("LTAI5tSKFx2pidsDNNUrcpcj").setAccessKeySecret("Y3hWbDjDDsfHE8cnGRvfjw19jX9svu");
         // 访问的域名（这个不用变都是这个）
         config.endpoint = "dysmsapi.aliyuncs.com";
