@@ -21,4 +21,18 @@ public class UserController {
     public ResponseDTO modifyPwd(@RequestBody ModifyPwdVo vo) {
         return userService.modifyPwd(vo);
     }
+
+    @RequestMapping("/regist")
+    public ResponseDTO regist(@RequestBody LoginVo loginVo){
+        return userService.regist(loginVo);
+    }
+
+    @RequestMapping("/accountLogin")
+    public ResponseDTO accountLogin(@RequestBody LoginVo loginVo){
+        return userService.accountLogin(loginVo.getAccount(), loginVo.getPwd());
+    }
+    @RequestMapping("/messageCodeLogin")
+    public ResponseDTO messageCodeLogin(@RequestBody LoginVo loginVo){
+        return userService.messageCodeLogin(loginVo.getAccount(),loginVo.getCode());
+    }
 }
