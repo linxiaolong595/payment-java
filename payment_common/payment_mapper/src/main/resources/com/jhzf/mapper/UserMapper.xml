@@ -9,5 +9,15 @@
     <select id="selectUserMsg" resultType="com.jhzf.pojo.PaymentUser">
         select * from payment_user where user_pwd = #{oldPwd} and user_id = #{userId};
     </select>
-
+    <insert id="regist">
+        insert into
+            payment_user(user_account,user_pwd,user_name,user_id_number,user_nickname,user_is_delete,user_is_authentication,user_account_type)
+        values(#{account},#{pwd},null,null,#{nickName},0,1,0)
+    </insert>
+    <select id="selectUser" resultType="java.lang.Integer">
+        select count(*) from payment_user where user_account = #{account}
+    </select>
+    <select id="accountLogin" resultType="java.lang.Integer">
+        select count(*) from payment_user where user_account = #{account} and user_pwd = #{pwd}
+    </select>
 </mapper>
