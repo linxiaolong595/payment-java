@@ -7,7 +7,17 @@
         <option value="$PROJECT_DIR$/payment_back/pom.xml" />
         <option value="$PROJECT_DIR$/payment_common/pom.xml" />
         <option value="$PROJECT_DIR$/payment_uniapp/pom.xml" />
+        <option value="$PROJECT_DIR$/payment_uniapp/payment_other/pom.xml" />
       </list>
+    </option>
+    <option name="ignoredFiles">
+      <set>
+        <option value="$PROJECT_DIR$/payment_back/payment_admin/pom.xml" />
+        <option value="$PROJECT_DIR$/payment_uniapp/payment_apply_modify/pom.xml" />
+        <option value="$PROJECT_DIR$/payment_uniapp/payment_order_app/pom.xml" />
+        <option value="$PROJECT_DIR$/payment_uniapp/payment_payout/pom.xml" />
+        <option value="$PROJECT_DIR$/payment_uniapp/payment_store/pom.xml" />
+      </set>
     </option>
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" project-jdk-name="1.8" project-jdk-type="JavaSDK">

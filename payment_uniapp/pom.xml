@@ -10,11 +10,7 @@
   <version>1.0-SNAPSHOT</version>
   <modules>
     <module>payment_gateway_app</module>
-    <module>payment_user</module>
-    <module>payment_store</module>
-    <module>payment_apply_modify</module>
-    <module>payment_order_app</module>
-    <module>payment_payout</module>
+    <module>payment_other</module>
       <module>payment_payment</module>
   </modules>
 

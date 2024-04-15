@@ -1,5 +1,0 @@
-server:
-  port: 8125
-#spring:
-#  application:
-#    name: jhzf-user #微服务的名字，用于注册到ncaos

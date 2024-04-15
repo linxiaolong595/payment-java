@@ -7,20 +7,22 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="payment_admin" />
         <module name="payment_pojo" />
         <module name="payment_gateway" />
-        <module name="payment_user" />
-        <module name="payment_order_app" />
         <module name="payment_mapper" />
-        <module name="payment_store" />
-        <module name="payment_payout" />
         <module name="payment_order" />
+        <module name="payment_other" />
         <module name="payment_util" />
-        <module name="payment_apply_modify" />
         <module name="payment_gateway_app" />
         <module name="payment_payment" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="payment_admin" target="1.8" />
+      <module name="payment_apply_modify" target="1.8" />
+      <module name="payment_order_app" target="1.8" />
+      <module name="payment_payout" target="1.8" />
+      <module name="payment_store" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
 </project>

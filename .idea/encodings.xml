@@ -7,20 +7,31 @@
     <file url="file://$PROJECT_DIR$/payment_back/payment_gateway/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/payment_back/payment_order/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/payment_back/payment_order/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/payment_back/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/payment_back/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/payment_common/payment_mapper/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/payment_common/payment_mapper/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/payment_common/payment_pojo/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/payment_common/payment_pojo/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/payment_common/payment_util/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/payment_common/payment_util/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/payment_common/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/payment_common/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/payment_uniapp/payment_apply_modify/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/payment_uniapp/payment_apply_modify/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/payment_uniapp/payment_gateway_app/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/payment_uniapp/payment_gateway_app/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/payment_uniapp/payment_order_app/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/payment_uniapp/payment_order_app/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/payment_uniapp/payment_other/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/payment_uniapp/payment_other/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/payment_uniapp/payment_payment/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/payment_uniapp/payment_payment/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/payment_uniapp/payment_payout/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/payment_uniapp/payment_payout/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/payment_uniapp/payment_store/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/payment_uniapp/payment_store/src/main/resources" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/payment_uniapp/payment_user/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/payment_uniapp/payment_user/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/payment_uniapp/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/payment_uniapp/src/main/resources" charset="UTF-8" />
   </component>
 </project>
