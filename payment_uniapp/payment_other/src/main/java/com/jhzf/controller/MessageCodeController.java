@@ -1,7 +1,7 @@
 package com.jhzf.controller;
 
 import com.jhzf.service.MessageCode;
-import com.jhzf.utils.RandomUtil;
+import com.jhzf.util.RandomUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.CrossOrigin;

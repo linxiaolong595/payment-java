@@ -1,4 +1,4 @@
-package com.jhzf.utils;
+package com.jhzf.util;
 
 public class Base64Util {
     private static final char last2byte = (char) Integer.parseInt("00000011", 2);

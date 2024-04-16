@@ -3,6 +3,7 @@ package com.jhzf.service.impl;
 import com.jhzf.mapper.UserMapper;
 import com.jhzf.pojo.PaymentUser;
 import com.jhzf.service.UserService;
+import com.jhzf.util.Md5;
 import com.jhzf.util.ResponseDTO;
 import com.jhzf.vo.user.LoginVo;
 import com.jhzf.vo.user.ModifyPwdVo;
@@ -25,14 +26,14 @@ public class UserServiceImpl implements UserService {
             return ResponseDTO.error(0,"注册的手机号已存在");
         }else{
             System.out.println(loginVo.getAccount() + " " + loginVo.getPwd() + " " + loginVo.getNickName());
-            userMapper.regist(loginVo.getAccount(), com.jhzf.utils.Md5.getString(loginVo.getPwd()),loginVo.getNickName());
+            userMapper.regist(loginVo.getAccount(), Md5.getString(loginVo.getPwd()),loginVo.getNickName());
             return ResponseDTO.success(200,"注册成功",null);
         }
     }
 
     @Override
     public ResponseDTO accountLogin(String account, String pwd) {
-        int res = userMapper.accountLogin(account, com.jhzf.utils.Md5.getString(pwd));
+        int res = userMapper.accountLogin(account, Md5.getString(pwd));
         if(res == 1){
             return ResponseDTO.success(200,"登录成功",null);
         }else{
@@ -58,9 +59,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public ResponseDTO modifyPwd(ModifyPwdVo vo) {
         ResponseDTO dto = null;
-        List<PaymentUser> userMsg = userMapper.selectUserMsg(vo.getUserId(), com.jhzf.utils.Md5.getString(vo.getOldPwd()));
+        List<PaymentUser> userMsg = userMapper.selectUserMsg(vo.getUserId(),Md5.getString(vo.getOldPwd()));
         if (userMsg.size() > 0){
-            int i = userMapper.modifyPwd(vo.getUserId(), com.jhzf.utils.Md5.getString(vo.getNewPwd()));
+            int i = userMapper.modifyPwd(vo.getUserId(), Md5.getString(vo.getNewPwd()));
             if (i > 0){
                 dto = new ResponseDTO(200,"修改成功",null);
             }else {

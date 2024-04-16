@@ -1,4 +1,4 @@
-package com.jhzf.utils;
+package com.jhzf.util;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
