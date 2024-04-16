@@ -15,4 +15,5 @@ public class PaymentUser {
   private long userIsDelete;
   private long userIsAuthentication;
   private long userAccountType;
+  private PaymentStore paymentStore;
 }

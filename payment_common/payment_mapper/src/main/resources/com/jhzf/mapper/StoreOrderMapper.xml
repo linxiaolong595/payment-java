@@ -8,13 +8,84 @@
       mybatis会依据这个接口动态创建一个实现类去实现这个接口，而这个实现类是一个Mapper对象
    -->
 <mapper namespace="com.jhzf.mapper.StoreOrderMapper">
-    <select id="getStoreDailyOrder" resultType="com.jhzf.pojo.PaymentStore">
-
+    <select id="getStoreDailyOrder" resultType="double">
+        SELECT
+            sum(order_money)
+        FROM
+            payment_order
+        WHERE
+            order_createtime
+        BETWEEN
+            #{startTime}
+        AND
+            #{endTime}
+        and
+            order_store_id = 1
+        ORDER BY
+            order_createtime;
     </select>
-    <select id="getStoreMonthOrder" resultType="com.jhzf.pojo.PaymentOrder">
-        SELECT *
-        FROM payment_order
-        WHERE order_createtime BETWEEN #{startTime} AND #{endTime} and order_store_id = 1
-        ORDER BY order_createtime;
+    <select id="getStoreRebackMonthOrder" resultType="string">
+        SELECT
+            sum(order_money)
+        FROM
+            payment_order
+        WHERE
+            order_createtime
+        BETWEEN
+             #{startTime}
+        AND
+             #{endTime}
+        and
+            order_store_id = #{storeId}
+        and
+            order_reback = 1
+    </select>
+    <select id="getStoreProfitMonthOrders" resultType="string">
+        select
+            sum(order_money)
+        from
+            payment_order
+        where
+            order_store_id = #{storeId}
+        and
+            order_reback = 0
+        and
+            order_createtime
+        between
+            #{startTime}
+        AND
+            #{endTime}
+    </select>
+    <select id="profitOrderCount" resultType="java.lang.String">
+        select
+            count(*)
+        from
+            payment_order
+        where
+            order_store_id = #{storeId}
+            and
+            order_reback = 0
+            and
+            order_createtime
+            between
+            #{startTime}
+            AND
+            #{endTime}
+    </select>
+    <select id="rebackOrderCount" resultType="java.lang.String">
+        select
+            count(*)
+        from
+            payment_order
+        where
+            order_store_id = #{storeId}
+          and
+            order_reback = 1
+          and
+            order_createtime
+                between
+                #{startTime}
+                AND
+                #{endTime}
     </select>
 </mapper>

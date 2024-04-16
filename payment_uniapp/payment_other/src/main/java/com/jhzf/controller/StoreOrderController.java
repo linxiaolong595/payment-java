@@ -4,10 +4,7 @@ import com.jhzf.service.StoreOrderService;
 import com.jhzf.util.ResponseDTO;
 import com.jhzf.vo.store.StoreOrderVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin
@@ -15,11 +12,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class StoreOrderController {
     @Autowired
     private StoreOrderService storeOrderService;
-    @RequestMapping("/getStoreMonthOrder")
+    @PostMapping("/getStoreMonthOrder")
     public ResponseDTO getStoreMonthOrder(@RequestBody StoreOrderVo storeOrderVo){
         return storeOrderService.getStoreMonthOrder(storeOrderVo);
     }
-    @RequestMapping("/getStoreDailyOrder")
+    @PostMapping("/getStoreDailyOrder")
     public ResponseDTO getStoreDailyOrder(@RequestBody StoreOrderVo storeOrderVo){
         return storeOrderService.getStoreDailyOrder(storeOrderVo);
     }

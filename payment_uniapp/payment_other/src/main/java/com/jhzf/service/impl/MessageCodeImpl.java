@@ -6,18 +6,14 @@ import com.aliyun.dysmsapi20170525.models.SendSmsRequest;
 import com.aliyun.dysmsapi20170525.models.SendSmsResponse;
 import com.aliyun.teaopenapi.models.Config;
 import com.google.gson.Gson;
-import com.jhzf.service.MessageCode;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.jhzf.service.MessageCodeService;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.HashMap;
 import java.util.Map;
 
 @Service
-public class MessageCodeImpl implements MessageCode {
+public class MessageCodeImpl implements MessageCodeService {
 
     @Override
     public boolean send(Map map, String phone) {

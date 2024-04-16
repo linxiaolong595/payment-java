@@ -7,4 +7,6 @@ public class StoreOrderVo {
     private int storeId;
     private String startTime;
     private String endTime;
+
+
 }
