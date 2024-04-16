@@ -3,12 +3,10 @@ package com.jhzf.controller;
 
 import com.jhzf.service.UserService;
 import com.jhzf.util.ResponseDTO;
+import com.jhzf.vo.user.LoginVo;
 import com.jhzf.vo.user.ModifyPwdVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin
 @RestController
@@ -17,14 +15,23 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping("/modifyPwd")
+    //修改密码
+    @PostMapping("/modifyPwd")
     public ResponseDTO modifyPwd(@RequestBody ModifyPwdVo vo) {
         return userService.modifyPwd(vo);
     }
+    //用户注销账户
+    @GetMapping("/unsubscribe")
+    public ResponseDTO unsubscribe(String userId) {
+        //可提现金额和待提现金额都必须为0
+        //店铺不能有异常订单
+        System.out.println(userId);
+        return null;
+    }
 
-    @RequestMapping("/regist")
-    public ResponseDTO regist(@RequestBody LoginVo loginVo){
-        return userService.regist(loginVo);
+    @RequestMapping("/register")
+    public ResponseDTO register(@RequestBody LoginVo loginVo){
+        return userService.register(loginVo);
     }
 
     @RequestMapping("/accountLogin")

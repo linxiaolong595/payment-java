@@ -12,4 +12,12 @@ public interface UserMapper {
     List<PaymentUser> selectUserMsg(@Param("userId") String userId, @Param("oldPwd") String oldPwd);
     //修改密码
     int modifyPwd(@Param("userId") String userId, @Param("newPwd") String newPwd);
+
+    int regist(@Param("account")String account, @Param("pwd") String pwd, @Param("nickName")String nickName);
+
+    // 查询账号(手机号)是否已存在
+    int selectUser(@Param("account")String account);
+
+    // 账号密码登录
+    int accountLogin(@Param("account")String account,@Param("pwd")String pwd);
 }
