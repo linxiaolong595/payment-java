@@ -1,0 +1,5 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: payment-other #微服务的名字，用于注册到ncaos

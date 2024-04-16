@@ -1,0 +1,5 @@
+server:
+  port: 8090
+spring:
+  application:
+    name: payment-back #微服务的名字，用于注册到ncaos
