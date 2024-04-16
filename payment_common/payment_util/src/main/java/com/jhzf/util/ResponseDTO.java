@@ -17,6 +17,9 @@ public class ResponseDTO {
     public static ResponseDTO success() {
         return new ResponseDTO(1,"success",null);
     }
+    public static ResponseDTO success(int code,String msg) {
+        return new ResponseDTO(code,msg,null);
+    }
     public static ResponseDTO success(String msg) {
         return new ResponseDTO(1,msg,null);
     }

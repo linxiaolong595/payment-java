@@ -10,7 +10,7 @@ public class PaymentOrder {
   private String orderCallbackNumber;
   private double orderMoney;
   private long orderStoreId;
-  private java.sql.Timestamp orderCreatetime;
+  private String orderCreatetime;
   private String orderStatus;
   private String orderReback;
   private String orderPayway;

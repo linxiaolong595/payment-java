@@ -14,5 +14,5 @@ public class PaymentAudit {
   private String auditStoreIdentifyImage;
   private String auditStoreIdentifyCardFront;
   private String auditStoreIdentifyCardBack;
-  private java.sql.Timestamp auditSotreCreatetime;
+  private String auditSotreCreatetime;
 }
