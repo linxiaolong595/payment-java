@@ -11,7 +11,7 @@ public class PaymentOrder {
   private double orderMoney;
   private long orderStoreId;
   private String orderCreatetime;
-  private int orderStatus;
-  private int orderReback;
+  private String orderStatus;
+  private String orderReback;
   private String orderPayway;
 }

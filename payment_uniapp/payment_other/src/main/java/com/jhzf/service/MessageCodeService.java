@@ -2,7 +2,7 @@ package com.jhzf.service;
 
 import java.util.Map;
 
-public interface MessageCode {
+public interface MessageCodeService {
 
     boolean send(Map map, String phone);
 }
