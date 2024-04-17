@@ -7,7 +7,7 @@ import com.jhzf.vo.user.ModifyPwdVo;
 public interface UserService {
     ResponseDTO modifyPwd(ModifyPwdVo vo);
     
-    ResponseDTO regist(LoginVo loginVo);
+    ResponseDTO register(LoginVo loginVo);
 
     // 账号密码登录
     ResponseDTO accountLogin(String account, String pwd);

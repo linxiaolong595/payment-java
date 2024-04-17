@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.jhzf.mapper.ReportFormMapper">
+
+
+    <select id="selectStoreReportForm" resultType="com.jhzf.vo.reportForm.ReportFormVo">
+        SELECT
+            DATE(po.order_createtime) AS categories,
+            ps.store_name AS 'name',
+            SUM(po.order_money) AS 'data'
+        FROM
+            payment_order po
+            JOIN
+            payment_store ps ON po.order_store_id = ps.store_id
+        <where>
+            <if test="storeId !=0 and storeId != null">
+                ps.store_id = #{storeId}
+            </if>
+        </where>
+
+        GROUP BY
+            categories, name
+        ORDER BY
+            categories;
+    </select>
+
+
+</mapper>

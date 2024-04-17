@@ -11,7 +11,7 @@ public class PaymentUser {
   private String userName;
   private String userIdNumber;
   private String userNickname;
-  private java.sql.Timestamp userCreatetime;
+  private String userCreatetime;
   private long userIsDelete;
   private long userIsAuthentication;
   private long userAccountType;

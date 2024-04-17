@@ -12,5 +12,5 @@ public class PaymentAdmin {
   private String adminStatus;
   private String adminIsDelete;
   private long adminRoleId;
-  private java.sql.Timestamp adminCreateTime;
+  private String adminCreateTime;
 }

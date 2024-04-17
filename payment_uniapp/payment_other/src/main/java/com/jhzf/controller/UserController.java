@@ -15,10 +15,20 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    //修改密码
     @PostMapping("/modifyPwd")
     public ResponseDTO modifyPwd(@RequestBody ModifyPwdVo vo) {
         return userService.modifyPwd(vo);
     }
+    //用户注销账户
+    @GetMapping("/unsubscribe")
+    public ResponseDTO unsubscribe(String userId) {
+        //可提现金额和待提现金额都必须为0
+        //店铺不能有异常订单
+        System.out.println(userId);
+        return null;
+    }
+
 
     @PostMapping("/register")
     public ResponseDTO register(@RequestBody LoginVo loginVo){

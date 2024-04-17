@@ -12,5 +12,5 @@ public class PaymentLog {
   private long logAdminId;
   private String logIp;
   private String logIsDelete;
-  private java.sql.Timestamp logCreateTime;
+  private String logCreateTime;
 }

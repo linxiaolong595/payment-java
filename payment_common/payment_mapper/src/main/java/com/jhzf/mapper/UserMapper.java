@@ -19,4 +19,5 @@ public interface UserMapper {
 
     // 账号密码登录
     PaymentUser accountLogin(@Param("account")String account,@Param("pwd")String pwd);
+
 }
