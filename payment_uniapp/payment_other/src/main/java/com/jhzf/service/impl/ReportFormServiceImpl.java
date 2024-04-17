@@ -1,6 +1,8 @@
 package com.jhzf.service.impl;
 
 import com.jhzf.mapper.ReportFormMapper;
+import com.jhzf.pojo.PaymentOrder;
+import com.jhzf.pojo.PaymentStore;
 import com.jhzf.service.ReportFormService;
 import com.jhzf.util.ResponseDTO;
 import com.jhzf.vo.reportForm.ReportFormVo;
@@ -8,10 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.xml.ws.Action;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.DecimalFormat;
+import java.util.*;
 
 /**
  * Description:
@@ -24,17 +24,55 @@ public class ReportFormServiceImpl implements ReportFormService {
     @Autowired
     private ReportFormMapper reportFormMapper;
     @Override
-    public ResponseDTO selectStoreReportForm(String storeId) {
-        List<ReportFormVo> reportForm = reportFormMapper.selectStoreReportForm(storeId);
+    public ResponseDTO selectStoreReportForm(String[] data,int storeId) {
+        List<ReportFormVo> reportForm = reportFormMapper.selectStoreReportForm(data,storeId);
         Map<String, Object> chartData = convertToChartData(reportForm);
         return ResponseDTO.success(200,"success",chartData);
     }
 
+    @Override
+    public ResponseDTO selectStoreName() {
+        List<PaymentStore> name = reportFormMapper.selectStoreName();
+        return ResponseDTO.success(200,"success",name);
+    }
+
+    @Override
+    public ResponseDTO selectStoreMoney(String[] data,int storeId) {
+        List<PaymentOrder> orders = reportFormMapper.selectStoreMoney(data,storeId);
+        int count=0;
+        double sum=0;
+        double refund=0;
+        double average=0;
+
+        for (PaymentOrder order : orders) {
+            if (order.getOrderReback()==0){
+                count++;
+                sum += order.getOrderMoney();
+            } else {
+                refund += order.getOrderMoney();
+            }
+        }
+        if (count!=0){
+            average = sum/count;
+        }
+        // 使用 DecimalFormat 格式化平均值并保留两位小数
+        DecimalFormat df = new DecimalFormat("#.##");
+        String formattedAverage = df.format(average);
+
+        Map<String, Object> money = new HashMap<>();
+        money.put("count",count);
+        money.put("sum",sum);
+        money.put("refund",refund);
+        money.put("average",formattedAverage);
+
+        return ResponseDTO.success(200,"success",money);
+    }
+
 
     public static Map<String, Object> convertToChartData(List<ReportFormVo> reportForms) {
-        Map<String, List<Double>> storeDataMap = new HashMap<>();
+        // 使用 TreeMap 来自动按照日期排序
+        Map<String, List<Double>> storeDataMap = new TreeMap<>();
         List<String> categories = new ArrayList<>();
-
 
         // 遍历报表数据，将数据按照日期和店铺进行归类
         for (ReportFormVo reportForm : reportForms) {
@@ -47,16 +85,31 @@ public class ReportFormServiceImpl implements ReportFormService {
                 categories.add(date);
             }
 
-            // 如果店铺数据集合中没有当前店铺，则添加
+            // 如果店铺数据集合中没有当前店铺，则添加，并将其数据列表初始化为0
             if (!storeDataMap.containsKey(storeName)) {
-                storeDataMap.put(storeName, new ArrayList<>());
+                List<Double> dataList = new ArrayList<>(Collections.nCopies(categories.size(), 0.0));
+                storeDataMap.put(storeName, dataList);
+            }
+
+            // 确保数据列表大小与日期列表大小相同
+            List<Double> dataList = storeDataMap.get(storeName);
+            while (dataList.size() < categories.size()) {
+                dataList.add(0.0);
             }
 
             // 将数据添加到店铺对应的数据集合中
-            storeDataMap.get(storeName).add(data);
+            int index = categories.indexOf(date);
+            dataList.set(index, data);
         }
 
-        // 构建最终的格式化数据
+        // 补全缺失的日期数据，确保每个店铺的数据列表长度与日期列表一致
+        for (List<Double> dataList : storeDataMap.values()) {
+            while (dataList.size() < categories.size()) {
+                dataList.add(0.0);
+            }
+        }
+
+        // 构建返回的数据结构
         List<Map<String, Object>> series = new ArrayList<>();
         for (String storeName : storeDataMap.keySet()) {
             Map<String, Object> seriesData = new HashMap<>();
