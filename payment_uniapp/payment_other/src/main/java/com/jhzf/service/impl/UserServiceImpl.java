@@ -38,9 +38,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ResponseDTO accountLogin(String account, String pwd) {
-        int res = userMapper.accountLogin(account, Md5.getString(pwd));
-        if(res == 1){
-            return ResponseDTO.success(200,"登录成功",null);
+        PaymentUser res = userMapper.accountLogin(account, Md5.getString(pwd));
+        if(res != null){
+            return ResponseDTO.success(200,"登录成功",res);
         }else{
             return ResponseDTO.error(0,"登录失败，账号或密码错误");
         }

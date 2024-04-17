@@ -3,6 +3,12 @@
 
 <mapper namespace="com.jhzf.mapper.UserMapper">
 
+    <resultMap id="userMap" type="com.jhzf.pojo.PaymentUser">
+        <id property="userId" column="user_id"></id>
+        <result property="userName" column="usr_name" />
+
+    </resultMap>
+
     <update id="modifyPwd">
         UPDATE payment_user SET user_pwd = #{newPwd} WHERE user_id = #{userId};
     </update>
@@ -17,7 +23,7 @@
     <select id="selectUser" resultType="java.lang.Integer">
         select count(*) from payment_user where user_account = #{account}
     </select>
-    <select id="accountLogin" resultType="java.lang.Integer">
-        select count(*) from payment_user where user_account = #{account} and user_pwd = #{pwd}
+    <select id="accountLogin" resultMap="userMap">
+        select * from payment_user where user_account = #{account} and user_pwd = #{pwd}
     </select>
 </mapper>
