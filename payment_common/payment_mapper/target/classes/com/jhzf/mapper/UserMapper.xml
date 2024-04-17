@@ -10,7 +10,6 @@
         select * from payment_user where user_pwd = #{oldPwd} and user_id = #{userId};
     </select>
 
-
     <insert id="regist">
         insert into
             payment_user(user_account,user_pwd,user_name,user_id_number,user_nickname,user_is_delete,user_is_authentication,user_account_type)
