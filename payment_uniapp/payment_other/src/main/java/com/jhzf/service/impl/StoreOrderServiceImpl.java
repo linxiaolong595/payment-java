@@ -57,6 +57,21 @@ public class StoreOrderServiceImpl implements StoreOrderService {
 
     @Override
     public ResponseDTO getStoreDailyOrder(StoreOrderVo storeOrderVo){
-        return null;
+        List<PaymentOrder> orderList = storeOrderMapper.getStoreDailyOrder(storeOrderVo.getStoreId(),storeOrderVo.getStartTime(),storeOrderVo.getEndTime());
+        if(orderList != null){
+            return ResponseDTO.success(200,"订单获取成功",orderList);
+        }else{
+            return ResponseDTO.success(200,"当天暂无订单",null);
+        }
+
+    }
+
+    @Override
+    public ResponseDTO getOrderDetail(StoreOrderVo storeOrderVo) {
+        List<PaymentOrder> orderDetail = storeOrderMapper.getOrderDetail(storeOrderVo.getOrderNumber());
+        if(orderDetail != null){
+            return ResponseDTO.success(200,"订单获取成功",orderDetail);
+        }
+        return ResponseDTO.error(0,"订单号错误，暂无订单");
     }
 }

@@ -11,11 +11,14 @@ import java.util.List;
 public interface StoreOrderMapper {
     // 获取当月没退款的钱
     String getStoreProfitMonthOrders(@Param("storeId")int storeId, @Param("startTime") String startTime, @Param("endTime") String endTime);
-
+    // 退款的钱
     String getStoreRebackMonthOrder(@Param("storeId")int storeId, @Param("startTime") String startTime, @Param("endTime") String endTime);
+    // 没退款的订单
     String profitOrderCount(@Param("storeId")int storeId, @Param("startTime") String startTime, @Param("endTime") String endTime);
-
+    // 获取退款的订单
     String rebackOrderCount(@Param("storeId")int storeId, @Param("startTime") String startTime, @Param("endTime") String endTime);
     // 获取当天全部订单
-//    List<PaymentStore> getStoreDailyOrder();
+    List<PaymentOrder> getStoreDailyOrder(@Param("storeId")int storeId,@Param("startTime") String startTime,@Param("endTime")String endTime);
+    // 获取订单详情
+    List<PaymentOrder> getOrderDetail(@Param("orderNumber")String orderNumber);
 }

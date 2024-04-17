@@ -20,4 +20,8 @@ public class StoreOrderController {
     public ResponseDTO getStoreDailyOrder(@RequestBody StoreOrderVo storeOrderVo){
         return storeOrderService.getStoreDailyOrder(storeOrderVo);
     }
+    @PostMapping("/getOrderDetail")
+    public ResponseDTO getOrderDetail(@RequestBody StoreOrderVo storeOrderVo){
+        return storeOrderService.getOrderDetail(storeOrderVo);
+    }
 }
