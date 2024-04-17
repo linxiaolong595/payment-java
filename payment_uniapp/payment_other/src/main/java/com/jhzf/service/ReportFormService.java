@@ -9,5 +9,7 @@ import com.jhzf.util.ResponseDTO;
  * @DATE: 2024/4/16 11:03
  */
 public interface ReportFormService {
-    ResponseDTO selectStoreReportForm(String storeId);
+    ResponseDTO selectStoreReportForm(String[] data,int storeId);
+    ResponseDTO selectStoreName();
+    ResponseDTO selectStoreMoney(String[] data,int storeId);
 }

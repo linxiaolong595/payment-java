@@ -21,7 +21,15 @@ public class ReportFormController {
     @Autowired
     private ReportFormService reportFormService;
     @GetMapping("/report")
-    public ResponseDTO selectStoreReportForm(String storeId){
-        return reportFormService.selectStoreReportForm(storeId);
+    public ResponseDTO selectStoreReportForm(String[] data,int storeId){
+        return reportFormService.selectStoreReportForm(data,storeId);
+    }
+    @GetMapping("/storeName")
+    public ResponseDTO selectStoreName() {
+        return reportFormService.selectStoreName();
+    }
+    @GetMapping("/money")
+    public ResponseDTO selectStoreMoney(String[] data,int storeId) {
+        return reportFormService.selectStoreMoney(data,storeId);
     }
 }
