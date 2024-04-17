@@ -7,24 +7,47 @@
 
 
     <select id="selectStoreReportForm" resultType="com.jhzf.vo.reportForm.ReportFormVo">
+        WITH RECURSIVE dates AS (
+        SELECT DATE(#{data[0]}) AS date
+        UNION ALL
+        SELECT DATE_ADD(date, INTERVAL 1 DAY)
+        FROM dates
+        WHERE date &lt; DATE(#{data[1]})
+        )
         SELECT
-            DATE(po.order_createtime) AS categories,
-            ps.store_name AS 'name',
-            SUM(po.order_money) AS 'data'
+        dates.date AS categories,
+        ps.store_name AS name,
+        COALESCE(SUM(po.order_money), 0) AS data
         FROM
-            payment_order po
-            JOIN
-            payment_store ps ON po.order_store_id = ps.store_id
+        dates
+        CROSS JOIN
+        payment_store ps
+        LEFT JOIN
+        payment_order po ON po.order_store_id = ps.store_id AND DATE(po.order_createtime) = dates.date
         <where>
-            <if test="storeId !=0 and storeId != null">
+            <if test="storeId != 0">
                 ps.store_id = #{storeId}
             </if>
         </where>
-
         GROUP BY
-            categories, name
+        categories, name
         ORDER BY
-            categories;
+        categories, name;
+    </select>
+    <select id="selectStoreName" resultType="com.jhzf.pojo.PaymentStore">
+        select *
+        from payment_store
+        where store_is_delete = 0
+    </select>
+    <select id="selectStoreMoney" resultType="com.jhzf.pojo.PaymentOrder">
+        select *
+        from payment_order
+        <where>
+            order_createtime BETWEEN #{data[0]} AND #{data[1]} + INTERVAL 1 DAY
+            <if test="storeId != 0">
+              and  order_store_id = #{storeId}
+            </if>
+        </where>
     </select>
 
 
