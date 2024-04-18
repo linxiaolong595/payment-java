@@ -5,12 +5,17 @@ import com.jhzf.pojo.PaymentOrder;
 import com.jhzf.pojo.PaymentStore;
 import com.jhzf.service.ReportFormService;
 import com.jhzf.util.ResponseDTO;
+import com.jhzf.vo.reportForm.OrdersVo;
 import com.jhzf.vo.reportForm.ReportFormVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.xml.ws.Action;
 import java.text.DecimalFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 /**
@@ -66,6 +71,59 @@ public class ReportFormServiceImpl implements ReportFormService {
         money.put("average",formattedAverage);
 
         return ResponseDTO.success(200,"success",money);
+    }
+
+    @Override
+    public ResponseDTO selectStoreOrder(OrdersVo ordersVo) {
+        List<PaymentOrder> orders = reportFormMapper.selectStoreOrder(ordersVo);
+        // 创建一个 Map 用于存储每日的统计数据，键为日期，值为该日期的统计信息
+        Map<LocalDate, Map<String, Object>> dailyStats = new HashMap<>();
+
+        for (PaymentOrder order : orders) {
+            // 定义日期时间格式化器
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+            // 解析日期字符串
+            LocalDateTime dateTime = LocalDateTime.parse(order.getOrderCreatetime(), formatter);
+
+            // 转换为 LocalDate
+            LocalDate orderDate = dateTime.toLocalDate();
+
+            // 获取该日期的统计信息，如果不存在则创建一个新的统计信息对象
+            Map<String, Object> stats = dailyStats.computeIfAbsent(orderDate, k -> new HashMap<>());
+
+            // 更新该日期的统计信息
+            int count = (int) stats.getOrDefault("count", 0);
+            double sum = (double) stats.getOrDefault("sum", 0.0);
+            double refund = (double) stats.getOrDefault("refund", 0.0);
+            int refundSum = (int) stats.getOrDefault("refundSum", 0);
+
+            if (order.getOrderReback() == 0) {
+                count++;
+                sum += order.getOrderMoney();
+            } else {
+                refundSum++;
+                refund += order.getOrderMoney();
+            }
+
+            stats.put("count", count);
+            stats.put("sum", sum);
+            stats.put("refund", refund);
+            stats.put("refundSum", refundSum);
+        }
+
+        // 构造最终结果，按日期倒序排序
+        List<Map<String, Object>> dailyStatsList = new ArrayList<>();
+        dailyStats.entrySet().stream()
+                .sorted(Map.Entry.<LocalDate, Map<String, Object>>comparingByKey().reversed())
+                .forEach(entry -> {
+                    Map<String, Object> dailyStat = new HashMap<>();
+                    dailyStat.put("date", entry.getKey());
+                    dailyStat.putAll(entry.getValue());
+                    dailyStatsList.add(dailyStat);
+                });
+
+        return ResponseDTO.success(200, "success", dailyStatsList);
     }
 
 

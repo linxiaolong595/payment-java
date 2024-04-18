@@ -2,6 +2,7 @@ package com.jhzf.mapper;
 
 import com.jhzf.pojo.PaymentOrder;
 import com.jhzf.pojo.PaymentStore;
+import com.jhzf.vo.reportForm.OrdersVo;
 import com.jhzf.vo.reportForm.ReportFormVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -19,4 +20,7 @@ public interface ReportFormMapper {
     List<ReportFormVo> selectStoreReportForm(@Param("data") String[] data,@Param("storeId")int storeId);
     List<PaymentStore> selectStoreName();
     List<PaymentOrder> selectStoreMoney(@Param("data") String[] data,@Param("storeId")int storeId);
+
+    //查找店铺所有订单
+    List<PaymentOrder> selectStoreOrder(@Param("ordersVo") OrdersVo ordersVo);
 }

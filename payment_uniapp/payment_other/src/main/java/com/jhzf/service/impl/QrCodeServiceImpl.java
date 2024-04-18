@@ -1,7 +1,6 @@
 package com.jhzf.service.impl;
 
-import com.alibaba.fastjson2.JSON;
-import com.alibaba.fastjson2.JSONObject;
+import com.alibaba.fastjson.JSON;
 import com.jhzf.service.QrCodeService;
 import com.jhzf.util.QRCodeUtil;
 import com.jhzf.vo.user.QrCodeVo;

@@ -2,11 +2,9 @@ package com.jhzf.controller;
 
 import com.jhzf.service.ReportFormService;
 import com.jhzf.util.ResponseDTO;
+import com.jhzf.vo.reportForm.OrdersVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Description:
@@ -31,5 +29,10 @@ public class ReportFormController {
     @GetMapping("/money")
     public ResponseDTO selectStoreMoney(String[] data,int storeId) {
         return reportFormService.selectStoreMoney(data,storeId);
+    }
+    @PostMapping("/order")
+    public ResponseDTO selectStoreOrder(@RequestBody OrdersVo ordersVo) {
+        System.out.println(ordersVo);
+        return reportFormService.selectStoreOrder(ordersVo);
     }
 }
