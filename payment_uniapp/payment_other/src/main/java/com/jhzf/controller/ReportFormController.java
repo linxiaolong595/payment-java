@@ -19,16 +19,16 @@ public class ReportFormController {
     @Autowired
     private ReportFormService reportFormService;
     @GetMapping("/report")
-    public ResponseDTO selectStoreReportForm(String[] data,int storeId){
-        return reportFormService.selectStoreReportForm(data,storeId);
+    public ResponseDTO selectStoreReportForm(String[] data,int storeId,int userId){
+        return reportFormService.selectStoreReportForm(data,storeId,userId);
     }
     @GetMapping("/storeName")
-    public ResponseDTO selectStoreName() {
-        return reportFormService.selectStoreName();
+    public ResponseDTO selectStoreName(int userId) {
+        return reportFormService.selectStoreName(userId);
     }
     @GetMapping("/money")
-    public ResponseDTO selectStoreMoney(String[] data,int storeId) {
-        return reportFormService.selectStoreMoney(data,storeId);
+    public ResponseDTO selectStoreMoney(String[] data,int storeId,int userId) {
+        return reportFormService.selectStoreMoney(data,storeId,userId);
     }
     @PostMapping("/order")
     public ResponseDTO selectStoreOrder(@RequestBody OrdersVo ordersVo) {

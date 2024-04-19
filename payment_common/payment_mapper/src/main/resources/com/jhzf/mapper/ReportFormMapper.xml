@@ -26,8 +26,12 @@
         payment_order po ON po.order_store_id = ps.store_id AND DATE(po.order_createtime) = dates.date
         <where>
             <if test="storeId != 0">
-                ps.store_id = #{storeId}
+                AND ps.store_id = #{storeId}
             </if>
+            AND (
+            ps.store_primary_account_id = #{userId} OR
+            ps.store_subsidiary_account_id = #{userId}
+            )
         </where>
         GROUP BY
         categories, name
@@ -38,20 +42,38 @@
         select *
         from payment_store
         where store_is_delete = 0
+        AND (
+            store_primary_account_id = #{userId} OR
+            store_subsidiary_account_id = #{userId}
+        )
     </select>
     <select id="selectStoreMoney" resultType="com.jhzf.pojo.PaymentOrder">
-        select *
-        from payment_order
+        SELECT
+        po.*,
+        ps.*
+        FROM
+        payment_order po
+        JOIN
+        payment_store ps ON po.order_store_id = ps.store_id
         <where>
-            order_createtime BETWEEN #{data[0]} AND #{data[1]} + INTERVAL 1 DAY
+            po.order_createtime BETWEEN #{data[0]} AND #{data[1]} + INTERVAL 1 DAY
+            AND (
+            ps.store_primary_account_id = #{userId} OR
+            ps.store_subsidiary_account_id = #{userId}
+            )
             <if test="storeId != 0">
-              and  order_store_id = #{storeId}
+                AND ps.store_id = #{storeId}
             </if>
         </where>
     </select>
     <select id="selectStoreOrder" resultType="com.jhzf.pojo.PaymentOrder">
-        select *
-        from payment_order
+        select
+            po.*,
+            ps.*
+        FROM
+            payment_order po
+        JOIN
+            payment_store ps ON po.order_store_id = ps.store_id
         <where>
             order_store_id = #{ordersVo.storeId}
             <if test="ordersVo.data.size() > 1">

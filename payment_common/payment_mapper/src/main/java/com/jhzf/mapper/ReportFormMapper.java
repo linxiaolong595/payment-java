@@ -17,9 +17,10 @@ import java.util.List;
  */
 @Mapper
 public interface ReportFormMapper {
-    List<ReportFormVo> selectStoreReportForm(@Param("data") String[] data,@Param("storeId")int storeId);
-    List<PaymentStore> selectStoreName();
-    List<PaymentOrder> selectStoreMoney(@Param("data") String[] data,@Param("storeId")int storeId);
+    List<ReportFormVo> selectStoreReportForm(@Param("data") String[] data,
+                                             @Param("storeId")int storeId,@Param("userId")int userId);
+    List<PaymentStore> selectStoreName(@Param("userId")int userId);
+    List<PaymentOrder> selectStoreMoney(@Param("data") String[] data,@Param("storeId")int storeId,@Param("userId")int userId);
 
     //查找店铺所有订单
     List<PaymentOrder> selectStoreOrder(@Param("ordersVo") OrdersVo ordersVo);
