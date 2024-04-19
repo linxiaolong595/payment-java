@@ -1,6 +1,7 @@
 package com.jhzf.service;
 
 import com.jhzf.util.ResponseDTO;
+import com.jhzf.vo.reportForm.OrdersVo;
 
 /**
  * Description:
@@ -12,4 +13,7 @@ public interface ReportFormService {
     ResponseDTO selectStoreReportForm(String[] data,int storeId);
     ResponseDTO selectStoreName();
     ResponseDTO selectStoreMoney(String[] data,int storeId);
+
+    ////查找店铺所有订单
+    ResponseDTO selectStoreOrder(OrdersVo ordersVo);
 }

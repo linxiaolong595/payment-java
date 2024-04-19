@@ -3,7 +3,6 @@ package com.jhzf.controller;
 import com.jhzf.service.MessageCodeService;
 import com.jhzf.util.RandomUtil;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;

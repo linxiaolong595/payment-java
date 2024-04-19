@@ -49,6 +49,16 @@
             </if>
         </where>
     </select>
+    <select id="selectStoreOrder" resultType="com.jhzf.pojo.PaymentOrder">
+        select *
+        from payment_order
+        <where>
+            order_store_id = #{ordersVo.storeId}
+            <if test="ordersVo.data.size() > 1">
+              and  order_createtime BETWEEN #{ordersVo.data[0]} AND #{ordersVo.data[1]} + INTERVAL 1 DAY
+            </if>
+        </where>
+    </select>
 
 
 </mapper>
