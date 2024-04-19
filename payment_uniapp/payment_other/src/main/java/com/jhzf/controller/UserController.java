@@ -32,7 +32,7 @@ public class UserController {
 
     @PostMapping("/register")
     public ResponseDTO register(@RequestBody LoginVo loginVo){
-        return userService.regist(loginVo);
+        return userService.register(loginVo);
     }
 
     @PostMapping("/accountLogin")

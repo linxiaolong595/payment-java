@@ -12,6 +12,6 @@ public class PaymentOrder {
   private long orderStoreId;
   private String orderCreatetime;
   private String orderStatus;
-  private String orderReback;
+  private int orderReback;
   private String orderPayway;
 }
