@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.jhzf.mapper.StoreOrderMapper">
+    <select id="getStoreDailyOrder" resultType="com.jhzf.pojo.PaymentOrder">
+        select
+            *
+        from
+            payment_order
+        where
+            order_store_id = #{storeId}
+        and
+            order_createtime
+        between
+            #{startTime}
+        and
+            #{endTime}
+    </select>
+    <select id="getStoreRebackMonthOrder" resultType="string">
+        SELECT
+            sum(order_money)
+        FROM
+            payment_order
+        WHERE
+            order_createtime
+        BETWEEN
+             #{startTime}
+        AND
+             #{endTime}
+        and
+            order_store_id = #{storeId}
+        and
+            order_reback = 1
+    </select>
+    <select id="getStoreProfitMonthOrders" resultType="string">
+        select
+            sum(order_money)
+        from
+            payment_order
+        where
+            order_store_id = #{storeId}
+        and
+            order_reback = 0
+        and
+            order_createtime
+        between
+            #{startTime}
+        AND
+            #{endTime}
+    </select>
+    <select id="profitOrderCount" resultType="java.lang.String">
+        select
+            count(*)
+        from
+            payment_order
+        where
+            order_store_id = #{storeId}
+            and
+            order_reback = 0
+            and
+            order_createtime
+            between
+            #{startTime}
+            AND
+            #{endTime}
+    </select>
+    <select id="rebackOrderCount" resultType="java.lang.String">
+        select
+            count(*)
+        from
+            payment_order
+        where
+            order_store_id = #{storeId}
+          and
+            order_reback = 1
+          and
+            order_createtime
+                between
+                #{startTime}
+                AND
+                #{endTime}
+    </select>
+    <select id="getOrderDetail" resultType="com.jhzf.pojo.PaymentOrder">
+        select
+            *
+        from
+            payment_order
+        where
+            order_number = #{orderNumber}
+    </select>
+</mapper>
