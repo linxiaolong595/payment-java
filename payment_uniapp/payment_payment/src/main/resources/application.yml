@@ -1,11 +1,19 @@
 spring:
   application:
     name: payment-payment #给微服务取个名字，也是注册到nacos上的名字
-  cloud:
-    gateway:
-      discovery:
-        locator:
-          enabled: true     #开启动态路由
+  freemarker:
+    charset: UTF-8
+    expose-request-attributes: true
+    content-type: text/html
+    suffix: .html
+    enabled: true
+  mvc:
+    throw-exception-if-no-handler-found: true
+#  cloud:
+#    gateway:
+#      discovery:
+#        locator:
+#          enabled: true     #开启动态路由
 #    sentinel:
 #      transport:
 #        dashboard: 121.37.212.46:8888

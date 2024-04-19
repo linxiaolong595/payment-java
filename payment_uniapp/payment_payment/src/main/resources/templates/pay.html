@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>聚合支付</title>
+</head>
+<body>
+<div class="container">
+    <div class="img-box"><img src="/logo.png" alt=""></div>
+    <p class="title">向${storeMsg.subject}付款</p>
+<!--    <p class="money-title">付款的金额：</p>-->
+    <input type="text" placeholder="请输入金额">
+</div>
+<button id="payButton">支付</button>
+
+</body>
+</html>
+<script>
+    // 获取按钮元素
+    var button = document.getElementById('payButton');
+    // 添加点击事件监听器
+    button.addEventListener('click', function() {
+        // 当按钮被点击时，执行这里的代码
+        alert('未来会拉起微信支付！');
+        // 这里可以添加你想要执行的其他操作，比如触发支付流程等
+    });
+</script>
+<style>
+    body{
+        padding: 0;
+        margin: 0;
+        text-align: center;
+    }
+    .img-box{
+        text-align: center;
+    }
+    img{
+        width: 80px;
+        margin-top: 2rem;
+    }
+    .container{
+        background-color: #f9f9f9;
+    }
+    .title{
+        font-size: 20px;
+        text-align: center;
+    }
+    /*.money-title{*/
+    /*    font-size: 18px;*/
+    /*    margin-left: -13.5rem;*/
+    /*}*/
+    input{
+        width: 80%;
+        height: 3rem;
+        background-color: #f9f9f9;
+        margin-bottom: 2rem;
+        border: none;
+        border-bottom: 1px solid #000000;
+        font-size: 35px;
+        margin-top: 5rem;
+    }
+    input:focus {
+        outline: none; /* 与默认状态相同的边框样式 */
+    }
+    button{
+        width: 80%;
+        margin-top: 3rem;
+        height: 3rem;
+        background-color: #ff2525;
+        border-radius: 2rem;
+        color: #f9f9f9;
+        border: none;
+    }
+</style>

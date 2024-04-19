@@ -1,4 +1,4 @@
-package com.jhzf.service.impl;
+package com.jhzf.service.Impl;
 
 import com.alibaba.fastjson.JSON;
 import com.jhzf.service.QrCodeService;
@@ -31,7 +31,7 @@ public class QrCodeServiceImpl implements QrCodeService {
 
 
         //校验商户信息
-        String url = "http://192.168.1.17:8080/qrCode/pay-entry/" + urlSafeBase64String;
+        String url = "http://192.168.1.49:8110/qrCode/pay-entry/" + urlSafeBase64String;
         System.out.println(url);
 
         final String fileName=LOCALDATEFORMAT.get().format(new Date());

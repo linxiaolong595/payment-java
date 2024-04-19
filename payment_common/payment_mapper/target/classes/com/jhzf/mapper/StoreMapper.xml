@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.jhzf.mapper.StoreMapper">
+
+    <resultMap id="UserStore" type="com.jhzf.pojo.PaymentUser">
+        <id column="user_id" property="userId"></id>
+        <association property="paymentStore" javaType="com.jhzf.pojo.PaymentStore">
+            <result property="storeId" column="store_id"/>
+            <result property="storeName" column="store_name" />
+        </association>
+    </resultMap>
+
+    <select id="getUserStore" resultMap="UserStore">
+        select
+            payment_store.*
+        from
+            payment_store,payment_user
+        where
+            payment_store.store_primary_account_id = #{userId}
+        and
+            payment_store.store_primary_account_id = payment_user.user_id
+    </select>
+</mapper>
