@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 
 //提取出身份证的名字和身份证号码
 public class ExtractingIDCardInformation {
-    public static JSONObject ExtractingInformation(String result){
+    public static JSONObject ExtractingInformation(String result,String fileNewName){
         JSONObject jsonObject = JSON.parseObject(result);
         String words_result = jsonObject.getString("words_result");
         JSONObject words_result_json = JSON.parseObject(words_result);
@@ -19,6 +19,7 @@ public class ExtractingIDCardInformation {
         JSONObject information = new JSONObject();
         information.put("idName",name);
         information.put("idNum",idNum);
+        information.put("idCardFrontUrl",fileNewName);
         return information;
     }
 }
