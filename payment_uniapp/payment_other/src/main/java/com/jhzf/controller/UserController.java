@@ -29,16 +29,17 @@ public class UserController {
         return null;
     }
 
-    @RequestMapping("/register")
+
+    @PostMapping("/register")
     public ResponseDTO register(@RequestBody LoginVo loginVo){
         return userService.register(loginVo);
     }
 
-    @RequestMapping("/accountLogin")
+    @PostMapping("/accountLogin")
     public ResponseDTO accountLogin(@RequestBody LoginVo loginVo){
         return userService.accountLogin(loginVo.getAccount(), loginVo.getPwd());
     }
-    @RequestMapping("/messageCodeLogin")
+    @PostMapping("/messageCodeLogin")
     public ResponseDTO messageCodeLogin(@RequestBody LoginVo loginVo){
         return userService.messageCodeLogin(loginVo.getAccount(),loginVo.getCode());
     }

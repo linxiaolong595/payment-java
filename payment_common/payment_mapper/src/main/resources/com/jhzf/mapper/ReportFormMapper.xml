@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.jhzf.mapper.ReportFormMapper">
+
+
+    <select id="selectStoreReportForm" resultType="com.jhzf.vo.reportForm.ReportFormVo">
+        WITH RECURSIVE dates AS (
+        SELECT DATE(#{data[0]}) AS date
+        UNION ALL
+        SELECT DATE_ADD(date, INTERVAL 1 DAY)
+        FROM dates
+        WHERE date &lt; DATE(#{data[1]})
+        )
+        SELECT
+        dates.date AS categories,
+        ps.store_name AS name,
+        COALESCE(SUM(po.order_money), 0) AS data
+        FROM
+        dates
+        CROSS JOIN
+        payment_store ps
+        LEFT JOIN
+        payment_order po ON po.order_store_id = ps.store_id AND DATE(po.order_createtime) = dates.date
+        <where>
+            <if test="storeId != 0">
+                AND ps.store_id = #{storeId}
+            </if>
+            AND (
+            ps.store_primary_account_id = #{userId} OR
+            ps.store_subsidiary_account_id = #{userId}
+            )
+        </where>
+        GROUP BY
+        categories, name
+        ORDER BY
+        categories, name;
+    </select>
+    <select id="selectStoreName" resultType="com.jhzf.pojo.PaymentStore">
+        select *
+        from payment_store
+        where store_is_delete = 0
+        AND (
+            store_primary_account_id = #{userId} OR
+            store_subsidiary_account_id = #{userId}
+        )
+    </select>
+    <select id="selectStoreMoney" resultType="com.jhzf.pojo.PaymentOrder">
+        SELECT
+        po.*,
+        ps.*
+        FROM
+        payment_order po
+        JOIN
+        payment_store ps ON po.order_store_id = ps.store_id
+        <where>
+            po.order_createtime BETWEEN #{data[0]} AND #{data[1]} + INTERVAL 1 DAY
+            AND (
+            ps.store_primary_account_id = #{userId} OR
+            ps.store_subsidiary_account_id = #{userId}
+            )
+            <if test="storeId != 0">
+                AND ps.store_id = #{storeId}
+            </if>
+        </where>
+    </select>
+    <select id="selectStoreOrder" resultType="com.jhzf.pojo.PaymentOrder">
+        select
+            po.*,
+            ps.*
+        FROM
+            payment_order po
+        JOIN
+            payment_store ps ON po.order_store_id = ps.store_id
+        <where>
+            order_store_id = #{ordersVo.storeId}
+            <if test="ordersVo.data.size() > 1">
+              and  order_createtime BETWEEN #{ordersVo.data[0]} AND #{ordersVo.data[1]} + INTERVAL 1 DAY
+            </if>
+        </where>
+    </select>
+
+
+</mapper>
