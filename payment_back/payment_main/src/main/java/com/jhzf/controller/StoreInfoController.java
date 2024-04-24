@@ -2,12 +2,10 @@ package com.jhzf.controller;
 
 import com.jhzf.service.impl.StoreInfoServiceImpl;
 import com.jhzf.util.ResponseDTO;
+import com.jhzf.vo.store.SelectStoreVo;
 import com.jhzf.vo.store.StoreVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author 吴政顺
@@ -21,7 +19,11 @@ public class StoreInfoController {
     private StoreInfoServiceImpl storeInfoService;
 
     @PostMapping("/search")
-    public ResponseDTO selectStore(int pageNum, int pageSize, StoreVo storeVo){
-        return storeInfoService.getStoreInfo(pageNum,pageSize,storeVo);
+    public ResponseDTO selectStore(@RequestBody SelectStoreVo selectStoreVo){
+        return storeInfoService.getStoreInfo(selectStoreVo);
+    }
+    @GetMapping("/test")
+    public ResponseDTO test(){
+        return ResponseDTO.success();
     }
 }
