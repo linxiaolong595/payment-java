@@ -24,4 +24,6 @@ public class StoreInfoController {
     public ResponseDTO selectStore(int pageNum, int pageSize, StoreVo storeVo){
         return storeInfoService.getStoreInfo(pageNum,pageSize,storeVo);
     }
+
+
 }
