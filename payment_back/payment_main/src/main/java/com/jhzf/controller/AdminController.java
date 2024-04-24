@@ -22,8 +22,8 @@ public class AdminController {
     public ResponseDTO selectStore(@RequestBody adminLoginVo vo){
         return adminService.adminLogin(vo);
     }
-    @GetMapping("/getAdminInfo")
-    public ResponseDTO test(@RequestParam("X-Token") String token){
+    @GetMapping("/info")
+    public ResponseDTO test(@RequestParam("token") String token){
         return adminService.getAdminInfo(token);
     }
 }

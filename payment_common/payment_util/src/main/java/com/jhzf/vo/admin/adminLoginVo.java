@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class adminLoginVo {
-    private String adminAcc;
-    private String adminPwd;
+    private String username;
+    private String password;
     private String code;
 }
