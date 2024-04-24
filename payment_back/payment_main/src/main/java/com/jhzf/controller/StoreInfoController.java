@@ -22,10 +22,5 @@ public class StoreInfoController {
     public ResponseDTO selectStore(@RequestBody SelectStoreVo selectStoreVo){
         return storeInfoService.getStoreInfo(selectStoreVo);
     }
-    @GetMapping("/test")
-    public ResponseDTO test(){
-        return ResponseDTO.success();
-    }
-
 
 }

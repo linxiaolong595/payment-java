@@ -15,8 +15,6 @@ import javax.annotation.Resource;
 public class AdminController {
     @Autowired
     AdminService adminService;
-    @Resource
-    private RedisTemplate<String,Object> redisTemplate;
 
     @PostMapping("/login")
     public ResponseDTO selectStore(@RequestBody adminLoginVo vo){
