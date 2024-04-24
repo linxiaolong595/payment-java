@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jhzf.mapper.AdminMapper">
+    <resultMap id="adminMap"   type="com.jhzf.pojo.PaymentAdmin">
+        <id property="adminId" column="admin_id" />
+        <result property="adminAccount" column="admin_account" />
+        <result property="adminPwd" column="admin_pwd" />
+        <result property="adminName" column="admin_name" />
+        <result property="adminStatus" column="admin_status" />
+        <result property="adminIsDelete" column="admin_is_delete" />
+        <result property="adminRoleId" column="admin_role_id" />
+        <result property="adminCreateTime" column="admin_create_time" />
+        <association property="paymentRole" javaType="com.jhzf.pojo.PaymentRole">
+            <result property="roleId" column="role_id" />
+            <result property="roleName" column="role_name" />
+        </association>
+    </resultMap>
+
+    <!--管理员进行登录-->
+    <select id="adminLogin" resultMap="adminMap">
+        SELECT
+            payment_admin.*,
+            payment_role.role_name
+        FROM
+            payment_admin,
+            payment_role
+        WHERE
+            admin_role_id = role_id
+          AND admin_account = #{acc}
+          AND admin_pwd = #{pwd}
+    </select>
+</mapper>
