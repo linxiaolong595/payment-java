@@ -1,6 +1,7 @@
 package com.jhzf.mapper;
 
 import com.jhzf.pojo.PaymentStore;
+import com.jhzf.vo.store.SelectStoreVo;
 import com.jhzf.vo.store.StoreVo;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -12,5 +13,5 @@ import java.util.List;
  */
 @Mapper
 public interface BackendStoreMapper {
-    List<StoreVo> selectStoreInfo();
+    List<PaymentStore> selectStoreInfo(SelectStoreVo selectStoreVo);
 }

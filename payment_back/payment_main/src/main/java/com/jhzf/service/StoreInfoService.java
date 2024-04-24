@@ -1,6 +1,7 @@
 package com.jhzf.service;
 
 import com.jhzf.util.ResponseDTO;
+import com.jhzf.vo.store.SelectStoreVo;
 import com.jhzf.vo.store.StoreVo;
 
 /**
@@ -8,6 +9,6 @@ import com.jhzf.vo.store.StoreVo;
  * @date 2024/4/22 10:44
  */
 public interface StoreInfoService {
-    ResponseDTO getStoreInfo(int pageNum, int pageSize,StoreVo storeVo); //查询商家信息
+    ResponseDTO getStoreInfo(SelectStoreVo selectStoreVo); //查询商家信息
 
 }

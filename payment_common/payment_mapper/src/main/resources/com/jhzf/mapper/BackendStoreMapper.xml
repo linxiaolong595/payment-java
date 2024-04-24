@@ -2,11 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jhzf.mapper.BackendStoreMapper">
     <!--按信息查询商家-->
-    <select id="selectStoreInfo" resultType="com.jhzf.vo.store.StoreVo">
-        SELECT * From payment_store
+    <select id="selectStoreInfo" resultType="com.jhzf.pojo.PaymentStore">
+        SELECT * From payment_store,payment_user
         WHERE store_is_delete = 0
+        AND payment_store.store_primary_account_id = payment_user.user_id
         <if test="userAccount != null and userAccount != ''">
-            AND user_account= (SELECT user_account FROM payment_user where user_account = userAccount)
+            AND user_account = #{userAccount}
         </if>
         <if test="storeIdNum != null and storeIdNum != ''">
             AND store_id_num = #{storeIdNum}
@@ -17,11 +18,11 @@
         <if test="storeIsStatus != null and storeIsStatus != ''">
             AND store_is_status = #{storeIsStatus}
         </if>
-        <if test="startDate != null and startDate = ''">
-            AND store_createtime &gt;= #{startTime}
+        <if test="startDate != null and startDate != ''">
+            AND store_createtime &gt;= #{startDate}
         </if>
-        <if test="endDate != null  and endDate = ''">
-            AND store_createtime &lt;= #{endTime}
+        <if test="endDate != null  and endDate != ''">
+            AND store_createtime &lt;= #{endDate}
         </if>
     </select>
 </mapper>
