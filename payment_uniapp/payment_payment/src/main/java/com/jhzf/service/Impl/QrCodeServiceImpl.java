@@ -31,7 +31,7 @@ public class QrCodeServiceImpl implements QrCodeService {
 
 
         //校验商户信息
-        String url = "http://192.168.1.49:8110/qrCode/pay-entry/" + urlSafeBase64String;
+        String url = "http://yujenz.natappfree.cc/test/getWXOAuth2Code";
         System.out.println(url);
 
         final String fileName=LOCALDATEFORMAT.get().format(new Date());

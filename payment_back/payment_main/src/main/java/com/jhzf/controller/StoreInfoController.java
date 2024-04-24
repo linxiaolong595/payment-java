@@ -26,4 +26,6 @@ public class StoreInfoController {
     public ResponseDTO test(){
         return ResponseDTO.success();
     }
+
+
 }

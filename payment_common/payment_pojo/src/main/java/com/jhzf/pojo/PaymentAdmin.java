@@ -9,8 +9,9 @@ public class PaymentAdmin {
   private String adminAccount;
   private String adminPwd;
   private String adminName;
-  private String adminStatus;
-  private String adminIsDelete;
+  private int adminStatus;
+  private int adminIsDelete;
   private long adminRoleId;
   private String adminCreateTime;
+  private PaymentRole paymentRole;
 }

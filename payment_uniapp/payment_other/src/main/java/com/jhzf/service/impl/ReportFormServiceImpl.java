@@ -29,21 +29,21 @@ public class ReportFormServiceImpl implements ReportFormService {
     @Autowired
     private ReportFormMapper reportFormMapper;
     @Override
-    public ResponseDTO selectStoreReportForm(String[] data,int storeId) {
-        List<ReportFormVo> reportForm = reportFormMapper.selectStoreReportForm(data,storeId);
+    public ResponseDTO selectStoreReportForm(String[] data,int storeId,int userId) {
+        List<ReportFormVo> reportForm = reportFormMapper.selectStoreReportForm(data,storeId,userId);
         Map<String, Object> chartData = convertToChartData(reportForm);
         return ResponseDTO.success(200,"success",chartData);
     }
 
     @Override
-    public ResponseDTO selectStoreName() {
-        List<PaymentStore> name = reportFormMapper.selectStoreName();
+    public ResponseDTO selectStoreName(int userId) {
+        List<PaymentStore> name = reportFormMapper.selectStoreName(userId);
         return ResponseDTO.success(200,"success",name);
     }
 
     @Override
-    public ResponseDTO selectStoreMoney(String[] data,int storeId) {
-        List<PaymentOrder> orders = reportFormMapper.selectStoreMoney(data,storeId);
+    public ResponseDTO selectStoreMoney(String[] data,int storeId,int userId) {
+        List<PaymentOrder> orders = reportFormMapper.selectStoreMoney(data,storeId,userId);
         int count=0;
         double sum=0;
         double refund=0;
