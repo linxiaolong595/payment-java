@@ -79,6 +79,11 @@
             <artifactId>commons-lang3</artifactId>
             <version>3.5</version>
         </dependency>
+        <dependency>
+            <groupId>io.github.qyg2297248353.components</groupId>
+            <artifactId>jsonwebtoken-jjwt</artifactId>
+            <version>2.0.0</version>
+        </dependency>
     </dependencies>
 
 
