@@ -35,7 +35,7 @@ public class AdminServiceImpl implements AdminService {
             redisTemplate.opsForValue().set(token,res,1, TimeUnit.DAYS);
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("token",token);
-            dto = new ResponseDTO(20000,"登录成功",jsonObject);
+            dto = new ResponseDTO(200,"登录成功",jsonObject);
         }else {
             dto = new ResponseDTO(201,"账号或密码错误",null);
         }
