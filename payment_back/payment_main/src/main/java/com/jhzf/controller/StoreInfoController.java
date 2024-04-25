@@ -20,6 +20,7 @@ public class StoreInfoController {
 
     @PostMapping("/search")
     public ResponseDTO selectStore(@RequestBody SelectStoreVo selectStoreVo){
+
         return storeInfoService.getStoreInfo(selectStoreVo);
     }
 

@@ -28,13 +28,16 @@ public class StoreInfoServiceImpl implements StoreInfoService {
     @Override
     public ResponseDTO getStoreInfo(SelectStoreVo selectStoreVo) {
         PageHelper.startPage(selectStoreVo.getPageNum(),selectStoreVo.getPageSize());
+
         List<PaymentStore> storeVos = backendStoreMapper.selectStoreInfo(selectStoreVo);
-        if (storeVos != null && !storeVos.isEmpty()){
-            PageInfo pageInfo = new PageInfo(storeVos);
+        System.out.println("storeVos"+storeVos);
+//        if (storeVos != null && !storeVos.isEmpty()){
+            PageInfo<PaymentStore> pageInfo = new PageInfo<>(storeVos);
             PageResult pageResult = PageUtils.getPageResult(pageInfo);
+            System.out.println("pageResult"+pageResult);
             return ResponseDTO.success(200,"success",pageResult);
-        }else {
-            return ResponseDTO.error(201,"查询失败,未找到商家信息");
-        }
+//        }else {
+//            return ResponseDTO.error(201,"查询失败,未找到商家信息");
+//        }
     }
 }
