@@ -2,6 +2,7 @@ package com.jhzf.mapper;
 
 import com.jhzf.pojo.PaymentOrder;
 import com.jhzf.pojo.PaymentStore;
+import com.jhzf.vo.store.StoreOrderVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -21,4 +22,7 @@ public interface StoreOrderMapper {
     List<PaymentOrder> getStoreDailyOrder(@Param("storeId")int storeId,@Param("startTime") String startTime,@Param("endTime")String endTime);
     // 获取订单详情
     List<PaymentOrder> getOrderDetail(@Param("orderNumber")String orderNumber);
+
+    //后台订单组合查询
+    List<PaymentOrder> getStoreOrderBack(StoreOrderVo storeOrderVo);
 }
