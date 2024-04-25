@@ -29,4 +29,10 @@
           AND admin_account = #{acc}
           AND admin_pwd = #{pwd}
     </select>
+    <select id="adminAuthority" resultType="com.jhzf.pojo.PaymentMenu">
+        SELECT pm.*
+        FROM payment_permission AS pp
+        INNER JOIN payment_menu AS pm ON pp.permission_menu_id = pm.menu_id
+        WHERE pp.permission_role_id = #{adminId};
+    </select>
 </mapper>

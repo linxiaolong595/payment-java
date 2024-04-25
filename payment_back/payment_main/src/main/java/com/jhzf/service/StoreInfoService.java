@@ -10,5 +10,4 @@ import com.jhzf.vo.store.StoreVo;
  */
 public interface StoreInfoService {
     ResponseDTO getStoreInfo(SelectStoreVo selectStoreVo); //查询商家信息
-
 }
