@@ -25,48 +25,85 @@ public class AuthFilter implements GlobalFilter {
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-        //1、获取request，response ==>HttpServletRequest
+        //1、Request，response --->   HttpServletRequest
         ServerHttpRequest request = exchange.getRequest();
         ServerHttpResponse response = exchange.getResponse();
+
         //2、判断白名单
-        String[] whiteList = {"/user/login","user/reg","/code"};
-        //请求的url
-        String url = request.getURI().getPath();
-        for (String item : whiteList) {
-            if (item.equals(url)) {
-                //放行
-                System.out.println("路由白名单，放行");
+        String[] whiteList = {"/user/login","/user/reg","/code"};
+        //请求url
+        String url = request.getURI().toString();
+        //  request.getPath()   不带前面ip端口
+        for (String s : whiteList) {
+            if (url.contains(s)){
                 return chain.filter(exchange);
             }
         }
-
-        //3、获取请求头里面的token
-        List<String> strings = request.getHeaders().get("X-Token");
-        //4、从redis里面取出数据，取得到说明有效，娶不到说明过期或者不存在
-        if (strings != null && strings.size() > 0){
-            String token = strings.get(0);
-            System.out.println(token);
+        //3、获取请求头里的token
+        List<String> list = request.getHeaders().get("X-Token");
+        System.out.println("获取到的X-Token是：" + list);
+        if (list != null && list.size()>0){
+            String token = list.get(0);
+            System.out.println("X-token----->" + token);
             if (redisTemplate.hasKey(token)){
-                System.out.println("存在token，放行");
+                System.out.println("----------redis有--");
                 //放行
                 return chain.filter(exchange);
-            }else {
-                //token不存在，响应给客户端
-                response.setStatusCode(HttpStatus.UNAUTHORIZED);//设置响应状态码为401
-                response.getHeaders().add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
-                ResponseDTO dto = ResponseDTO.error(401,"token不存在或过期了");
-                byte[] bytes = JSON.toJSONBytes(dto);
-                DataBuffer wrap = response.bufferFactory().wrap(bytes);
-                return response.writeWith(Mono.just(wrap));
             }
-        }else {
-            response.setStatusCode(HttpStatus.UNAUTHORIZED);//设置响应状态码为401
-            response.getHeaders().add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
-            ResponseDTO dto = ResponseDTO.error(401,"token不存在或过期了");
-            byte[] bytes = JSON.toJSONBytes(dto);
-            DataBuffer wrap = response.bufferFactory().wrap(bytes);
-            return response.writeWith(Mono.just(wrap));
         }
+        // token不存在，则响应给客户端
+        //设置响应状态码为401,没权限
+        response.setStatusCode(HttpStatus.UNAUTHORIZED);
+        response.getHeaders().add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
+        ResponseDTO dto = ResponseDTO.error(401, "token不存在或者过期了");
+        byte[] bytes = JSON.toJSONBytes(dto);
+        DataBuffer wrap = response.bufferFactory().wrap(bytes);
+        return response.writeWith(Mono.just(wrap));
 
+        //4、从redis里取数据，取得到说明有效，取不到说明过期或不存在
+
+//        //1、获取request，response ==>HttpServletRequest
+//        ServerHttpRequest request = exchange.getRequest();
+//        ServerHttpResponse response = exchange.getResponse();
+//        //2、判断白名单
+//        String[] whiteList = {"/user/login","user/reg","/code"};
+//        //请求的url
+//        String url = request.getURI().getPath();
+//        for (String item : whiteList) {
+//            if (item.equals(url)) {
+//                //放行
+//                System.out.println("路由白名单，放行");
+//                return chain.filter(exchange);
+//            }
+//        }
+//
+//        //3、获取请求头里面的token
+//        List<String> strings = request.getHeaders().get("token");
+//        //4、从redis里面取出数据，取得到说明有效，娶不到说明过期或者不存在
+//        if (strings != null && strings.size() > 0){
+//            String token = strings.get(0);
+//            System.out.println(token);
+//            if (redisTemplate.hasKey(token)){
+//                System.out.println("存在token，放行");
+//                //放行
+//                return chain.filter(exchange);
+//            }else {
+//                //token不存在，响应给客户端
+//                response.setStatusCode(HttpStatus.UNAUTHORIZED);//设置响应状态码为401
+//                response.getHeaders().add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
+//                ResponseDTO dto = ResponseDTO.error(401,"token不存在或过期了");
+//                byte[] bytes = JSON.toJSONBytes(dto);
+//                DataBuffer wrap = response.bufferFactory().wrap(bytes);
+//                return response.writeWith(Mono.just(wrap));
+//            }
+//        }else {
+//            response.setStatusCode(HttpStatus.UNAUTHORIZED);//设置响应状态码为401
+//            response.getHeaders().add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
+//            ResponseDTO dto = ResponseDTO.error(401,"token不存在或过期了");
+//            byte[] bytes = JSON.toJSONBytes(dto);
+//            DataBuffer wrap = response.bufferFactory().wrap(bytes);
+//            return response.writeWith(Mono.just(wrap));
+//        }
+//
     }
 }
