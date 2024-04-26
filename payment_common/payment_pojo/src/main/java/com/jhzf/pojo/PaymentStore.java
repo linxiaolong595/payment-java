@@ -8,7 +8,7 @@ public class PaymentStore {
   private long storeId;
   private String storeName;
   private String storeHeadImage;
-  private String storeCreatetime;
+  private String sotreCreatetime;
   private String storeNumber;
   private String storeIdentifyImage;
   private String storeIdentifyCardFront;

@@ -90,4 +90,27 @@
         where
             order_number = #{orderNumber}
     </select>
+    <select id="getStoreOrderBack" resultType="com.jhzf.pojo.PaymentOrder">
+        select
+        po.*,
+        ps.store_name
+        from
+        payment_order po,
+        payment_store ps
+        <where>
+            po.order_store_id = ps.store_id
+            <if test="storeName != '' and storeName != null">
+                and ps.store_name like #{storeName}
+            </if>
+            <if test="orderStatus != '' and orderStatus != null">
+                and po.order_status = #{orderStatus}
+            </if>
+            <if test="orderNumber != '' and orderNumber != null">
+                and po.order_number like #{orderNumber}
+            </if>
+            <if test="startTime != '' and startTime != null and endTime != '' and endTime != null">
+                and po.order_createtime BETWEEN #{startTime} AND #{endTime}
+            </if>
+        </where>
+    </select>
 </mapper>
