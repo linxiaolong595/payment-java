@@ -2,6 +2,7 @@ package com.jhzf.service;
 
 import com.jhzf.util.ResponseDTO;
 import com.jhzf.vo.store.SelectStoreVo;
+import com.jhzf.vo.store.StoreReviewVo;
 import com.jhzf.vo.store.StoreVo;
 
 /**
@@ -10,5 +11,6 @@ import com.jhzf.vo.store.StoreVo;
  */
 public interface StoreInfoService {
     ResponseDTO getStoreInfo(SelectStoreVo selectStoreVo); //查询商家信息
-
+    ResponseDTO getInformation(int storeId); //获取商家认证信息
+    ResponseDTO getReviewStore(StoreReviewVo vo); //查询审核表的店铺信息
 }

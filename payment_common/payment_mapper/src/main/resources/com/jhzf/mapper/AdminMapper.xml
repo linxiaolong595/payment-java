@@ -29,4 +29,29 @@
           AND admin_account = #{acc}
           AND admin_pwd = #{pwd}
     </select>
+
+    <!--查询管理员已有权限-->
+    <select id="adminAuthority" resultType="com.jhzf.pojo.PaymentMenu">
+        SELECT pm.*
+        FROM payment_permission AS pp
+        INNER JOIN payment_menu AS pm ON pp.permission_menu_id = pm.menu_id
+        WHERE pp.permission_role_id = #{adminId};
+    </select>
+
+    <!--查询管理员未有权限-->
+    <select id="adminNoAuthority" resultType="com.jhzf.pojo.PaymentMenu">
+        SELECT pm.*
+        FROM payment_menu AS pm
+        LEFT JOIN payment_permission AS pp ON pm.menu_id = pp.permission_menu_id AND pp.permission_role_id = #{adminId}
+        WHERE pp.permission_menu_id IS NULL;
+    </select>
+
+    <!--更新前先删除权限-->
+    <delete id="deleteAuthority">
+        DELETE FROM payment_permission WHERE permission_role_id = #{adminId}
+    </delete>
+    <!--更新管理员权限-->
+    <insert id="updateAuthority">
+        INSERT INTO payment_permission(permission_role_id,permission_menu_id) value (#{adminId},#{menuId})
+    </insert>
 </mapper>

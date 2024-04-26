@@ -3,11 +3,11 @@
 <mapper namespace="com.jhzf.mapper.BackendStoreMapper">
     <!--按信息查询商家-->
     <select id="selectStoreInfo" resultType="com.jhzf.pojo.PaymentStore">
-        SELECT * From payment_store,payment_user
+        SELECT * FROM payment_store,payment_user
         WHERE store_is_delete = 0
         AND payment_store.store_primary_account_id = payment_user.user_id
         <if test="userAccount != null and userAccount != ''">
-            AND user_account = #{userAccount}
+            AND payment_user.user_account = #{userAccount}
         </if>
         <if test="storeIdNum != null and storeIdNum != ''">
             AND store_id_num = #{storeIdNum}
@@ -23,6 +23,34 @@
         </if>
         <if test="endDate != null  and endDate != ''">
             AND store_createtime &lt;= #{endDate}
+        </if>
+    </select>
+    <!--获取商家认证信息-->
+    <select id="getInformationMapper" resultType="com.jhzf.pojo.PaymentStore">
+        SELECT *
+        FROM payment_store as ps
+        LEFT JOIN payment_user as pu on ps.store_primary_account_id = user_id
+        WHERE ps.store_id = #{storeId}
+    </select>
+    <!--查询审核表的店铺信息-->
+    <select id="getReviewStoreMapper" resultType="com.jhzf.pojo.PaymentAudit">
+        SELECT * FROM payment_audit as pa ,payment_user as pu
+        WHERE audit_is_delete = 0
+        AND pa.audit_user_id = pu.user_id
+        <if test="userAccount != null and userAccount != ''">
+            AND user_account = #{userAccount}
+        </if>
+        <if test="auditStoreName != null and auditStoreName != ''">
+            AND audit_store_name = #{auditStoreName}
+        </if>
+        <if test="auditStatus != null and auditStatus != ''">
+            AND audit_status = #{auditStatus}
+        </if>
+        <if test="startDate != null and startDate != ''">
+            AND audit_status &gt;= #{startDate}
+        </if>
+        <if test="endDate != null  and endDate != ''">
+            AND audit_status &lt;= #{endDate}
         </if>
     </select>
 </mapper>

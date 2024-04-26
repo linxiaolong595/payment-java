@@ -6,15 +6,15 @@ import lombok.Data;
 public class PaymentAudit {
 
   private long auditId;
-  private long auditUserId;
+  private String auditType;
+  private long auditStoreId;
   private String auditStoreName;
   private String auditStoreHeadImage;
   private String auditStoreNumber;
   private String auditStoreIdentifyImage;
   private String auditStoreIdentifyCardFront;
   private String auditStoreIdentifyCardBack;
-  private String auditStoreCreateTime;
-  private long auditStatus;
-  private String auditSuggestion;
-  private long auditIsDelete;
+  private String auditSotreCreatetime;
+  private String userAccount; // 用户表中的手机号字段
+  private String userName;// 用户表中的用户名字段
 }
