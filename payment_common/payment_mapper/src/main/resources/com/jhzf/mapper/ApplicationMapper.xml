@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.jhzf.mapper.ApplicationMapper">
+    <!--查看用户的申请进度-->
+    <select id="selectAllApplication" resultType="com.jhzf.pojo.PaymentAudit">
+        SELECT * FROM payment_audit WHERE audit_user_id = #{userId}
+    </select>
+    <delete id="cancellationApplication">
+        UPDATE payment_audit SET audit_status = 3 WHERE audit_id = #{auditId};
+    </delete>
+</mapper>

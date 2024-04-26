@@ -2,8 +2,8 @@ package com.jhzf.config;
 
 
 
-//import org.json.JSONObject;
-import com.alibaba.fastjson.JSONObject;
+import org.json.JSONObject;
+//import com.alibaba.fastjson.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -66,7 +66,7 @@ public class GetAccessToken {
              * 返回结果示例
              */
             System.err.println("result:" + result);
-            JSONObject jsonObject = new JSONObject(result.isEmpty());
+            JSONObject jsonObject = new JSONObject(result);
             String access_token = jsonObject.getString("access_token");
             return access_token;
         } catch (Exception e) {
