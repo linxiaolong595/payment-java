@@ -75,11 +75,30 @@
         JOIN
             payment_store ps ON po.order_store_id = ps.store_id
         <where>
-            order_store_id = #{ordersVo.storeId}
-            <if test="ordersVo.data.size() > 1">
+            <if test="ordersVo.storeId !=0">
+              and  order_store_id = #{ordersVo.storeId}
+            </if>
+            <if test="ordersVo.data.size() > 1 ">
               and  order_createtime BETWEEN #{ordersVo.data[0]} AND #{ordersVo.data[1]} + INTERVAL 1 DAY
             </if>
         </where>
+    </select>
+    <select id="selectOrder" resultType="com.jhzf.pojo.PaymentOrder">
+        select
+        po.*,
+        ps.*
+        FROM
+        payment_order po
+        JOIN
+        payment_store ps ON po.order_store_id = ps.store_id
+        <where>
+            (ps.store_primary_account_id = #{ordersVo.userId} OR
+            ps.store_subsidiary_account_id = #{ordersVo.userId})
+            <if test="ordersVo.storeId !=0">
+                and  order_store_id = #{ordersVo.storeId}
+            </if>
+        </where>
+        ORDER BY po.order_createtime DESC
     </select>
 
 

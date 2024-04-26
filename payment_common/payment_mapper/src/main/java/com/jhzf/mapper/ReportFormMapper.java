@@ -22,6 +22,9 @@ public interface ReportFormMapper {
     List<PaymentStore> selectStoreName(@Param("userId")int userId);
     List<PaymentOrder> selectStoreMoney(@Param("data") String[] data,@Param("storeId")int storeId,@Param("userId")int userId);
 
-    //查找店铺所有订单
+    //查找店铺所有订单并统计
     List<PaymentOrder> selectStoreOrder(@Param("ordersVo") OrdersVo ordersVo);
+
+    //查找店铺所有订单
+    List<PaymentOrder> selectOrder(@Param("ordersVo") OrdersVo ordersVo);
 }
