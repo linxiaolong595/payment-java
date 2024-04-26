@@ -3,22 +3,29 @@ package com.jhzf.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.jhzf.config.GetAccessToken;
+import com.jhzf.service.UserService;
 import com.jhzf.util.*;
+import com.jhzf.vo.user.CertificationVo;
+import org.apache.http.HttpResponse;
+import org.apache.http.util.EntityUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
 @CrossOrigin
 public class OcrController {
+    @Autowired
+    private UserService userService;
+
     @Value("${upload-dir}")
     private String uploadDir;
 
@@ -178,5 +185,68 @@ public class OcrController {
             return ResponseDTO.error();
         }
 
+    }
+    //实名认证的接口
+    @RequestMapping("/ocr/certification")
+    public ResponseDTO authentication(@RequestBody CertificationVo vo) {
+        ResponseDTO dto = null;
+        String msg = main(vo.getUserName(), vo.getUserIdCard());
+//        String msg = "{\"code\":\"10000\",\"message\":\"成功\",\"data\":{\"result\":\"2\"},\"seqNo\":\"6L5V6122240412011038866\"}";
+        // 使用 Fastjson 解析 JSON 字符串为 JSONObject 对象
+        JSONObject jsonObject = JSON.parseObject(msg);
+        // 获取各个字段的值
+        String code = jsonObject.getString("code");
+        if (code.contains("10000")){
+            // 获取 data 字段的值，并将其解析为一个新的 JSONObject 对象
+            JSONObject dataObject = jsonObject.getJSONObject("data");
+            int result = Integer.parseInt(dataObject.getString("result"));
+            if (result == 1){
+                System.out.println("验证一致");
+                dto = userService.authentication(vo.getUserId());
+            }
+        }else {
+            System.out.println("验证失败");
+            dto = ResponseDTO.error(201,"验证失败");
+        }
+        return dto;
+    }
+
+
+    public String main(String name,String idcard) {
+        String host = "http://checkone.market.alicloudapi.com";
+        String path = "/communication/personal/10101";
+        String method = "POST";
+        String appcode = "c52aa73306984a65a0825a301e3ca60c";
+        Map<String, String> headers = new HashMap<String, String>();
+        //最后在header中的格式(中间是英文空格)为Authorization:APPCODE 83359fd73fe94948385f570e3c139105
+        headers.put("Authorization", "APPCODE " + appcode);
+        //根据API的要求，定义相对应的Content-Type
+        headers.put("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+        Map<String, String> querys = new HashMap<String, String>();
+        Map<String, String> bodys = new HashMap<String, String>();
+        bodys.put("name", name);
+        bodys.put("idcard", idcard);
+        HttpResponse response = null;
+        String msg = null;
+        try {
+            /**
+             * 重要提示如下:
+             * HttpUtils请从
+             * https://github.com/aliyun/api-gateway-demo-sign-java/blob/master/src/main/java/com/aliyun/api/gateway/demo/util/HttpUtils.java
+             * 下载
+             *
+             * 相应的依赖请参照
+             * https://github.com/aliyun/api-gateway-demo-sign-java/blob/master/pom.xml
+             */
+
+            response = HttpUtils.doPost(host, path, method, headers, querys, bodys);
+//            System.out.println(response.toString());
+            //获取response的body
+            msg = EntityUtils.toString(response.getEntity());
+            System.out.println(msg);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return msg;
     }
 }

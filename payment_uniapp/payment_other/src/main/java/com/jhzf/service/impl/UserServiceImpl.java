@@ -1,16 +1,20 @@
 package com.jhzf.service.impl;
 
 import com.jhzf.mapper.UserMapper;
+import com.jhzf.pojo.PaymentStore;
 import com.jhzf.pojo.PaymentUser;
 import com.jhzf.service.UserService;
 import com.jhzf.util.Md5;
 import com.jhzf.util.ResponseDTO;
 import com.jhzf.vo.user.LoginVo;
 import com.jhzf.vo.user.ModifyPwdVo;
+import com.jhzf.vo.user.PayOutVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -63,6 +67,7 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+
     @Override
     public ResponseDTO modifyPwd(ModifyPwdVo vo) {
         ResponseDTO dto = null;
@@ -78,5 +83,75 @@ public class UserServiceImpl implements UserService {
             dto = new ResponseDTO(202,"旧密码输入错误，修改失败",null);
         }
         return dto;
+    }
+    @Override
+    public ResponseDTO getCashOutMoney(int userId) {
+        LocalDate currenDate = LocalDate.now();
+        int year = currenDate.getYear();
+        int month = currenDate.getMonthValue();
+        int day = currenDate.getDayOfMonth();
+        double cashOutMoney = 0;
+        double auditMoney = 0;
+        List<PaymentStore> stores = userMapper.selectStoreInfo(userId);
+        HashMap<String,Double> money = new HashMap<>();
+        String startTime = year + "-" + month + "-" + 1 + " 00:00:00";
+        String endTime = year + "-" + month +"-" + (day-1) + " 23:59:59";
+        List<Integer> storeId = userMapper.getCashOutStoreId(userId);
+        double totalMoney = 0;
+        double totalAuditMoney = 0;
+        for(int i = 0;i < storeId.size();i++){
+            // 查询当天当日的订单总金额
+            auditMoney = userMapper.getAuditingMoney(userId,year + "-" + month + "-" + day + " 00:00:00",year + "-" + month + "-" + day + " 23:59:59",storeId.get(i)) + stores.get(i).getStoreAuditMoney();
+            // 将上里面的金额更新到对应店铺的审核金额里
+            userMapper.updateAuditMoney(stores.get(i).getStoreId(),auditMoney);
+            // 将当日查询的订单状态更新
+            userMapper.updateOrderAuditStatus(year + "-" + month + "-" + day + " 00:00:00",year + "-" + month + "-" + day + " 23:59:59",storeId.get(i));
+            // 对审核金额累加并返回给前端
+            totalAuditMoney += auditMoney;
+            // 查询当前店铺id当日之前的订单金额+可提现金额
+            cashOutMoney = userMapper.getCashOutMoney(userId,startTime,endTime,storeId.get(i)) + stores.get(i).getStoreUsableMoney();
+            // 更新对应店铺的可提现金额
+            userMapper.updateCashMoney(stores.get(i).getStoreId(),cashOutMoney);
+            // 将查询完的订单更新状态
+            userMapper.updateOrderSelectStatus(startTime,endTime,storeId.get(i));
+            // 可提现金额累加
+            totalMoney += cashOutMoney;
+        }
+
+        money.put("cashOutMoney",totalMoney);
+        money.put("auditMoney",totalAuditMoney);
+        return ResponseDTO.success(200,"查询成功",money);
+    }
+    @Override
+    public ResponseDTO getCashOutStore(int userId) {
+        List<PaymentStore> stores = userMapper.selectStoreInfo(userId);
+        return ResponseDTO.success(200,"获取成功",stores);
+    }
+
+    @Override
+    public ResponseDTO getStoreCashMoney(int storeId,int userId) {
+        PaymentUser usableMoney = userMapper.getStoreCastOutMoney(storeId,userId);
+        return ResponseDTO.success(200,"获取成功",usableMoney);
+    }
+
+    @Override
+    public ResponseDTO doCashOut(PayOutVo payOutVo) {
+        System.out.println(payOutVo.getPayOutMoney() + " " + payOutVo.getStoreId());
+        int doCashOut = userMapper.doCashOut(payOutVo.getPayOutMoney(), payOutVo.getStoreId(), payOutVo.getPayOutCard());
+        PaymentStore store = userMapper.cashOutStoreInfo(payOutVo.getStoreId());
+        double cashOutMoney = store.getStoreUsableMoney() - payOutVo.getPayOutMoney();
+        System.out.println(cashOutMoney + "店铺金额");
+        userMapper.updateStoreCashOutMoney(payOutVo.getStoreId(),cashOutMoney);
+        return ResponseDTO.success(200, "提现成功", null);
+    }
+
+    @Override
+    public ResponseDTO authentication(String userId) {
+        int i = userMapper.authentication(userId);
+        if (i > 0){
+           return ResponseDTO.success(200,"认证成功",null);
+        }else {
+            return ResponseDTO.error(201,"认证失败");
+        }
     }
 }

@@ -12,6 +12,7 @@
     <update id="modifyPwd">
         UPDATE payment_user SET user_pwd = #{newPwd} WHERE user_id = #{userId};
     </update>
+
     <select id="selectUserMsg" resultType="com.jhzf.pojo.PaymentUser">
         select * from payment_user where user_pwd = #{oldPwd} and user_id = #{userId};
     </select>
@@ -26,4 +27,8 @@
     <select id="accountLogin" resultMap="userMap">
         select * from payment_user where user_account = #{account} and user_pwd = #{pwd}
     </select>
+
+    <update id="authentication">
+        UPDATE payment_user SET user_is_authentication = 1 WHERE user_id = #{userId};
+    </update>
 </mapper>
