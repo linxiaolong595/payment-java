@@ -126,6 +126,13 @@ public class ReportFormServiceImpl implements ReportFormService {
         return ResponseDTO.success(200, "success", dailyStatsList);
     }
 
+    @Override
+    public ResponseDTO selectOrder(OrdersVo ordersVo) {
+        List<PaymentOrder> orders = reportFormMapper.selectOrder(ordersVo);
+
+        return ResponseDTO.success(200, "success", orders);
+    }
+
 
     public static Map<String, Object> convertToChartData(List<ReportFormVo> reportForms) {
         // 使用 TreeMap 来自动按照日期排序

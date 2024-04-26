@@ -1,10 +1,13 @@
 package com.jhzf.controller;
 
+import com.jhzf.pojo.PaymentOrder;
 import com.jhzf.service.ReportFormService;
 import com.jhzf.util.ResponseDTO;
 import com.jhzf.vo.reportForm.OrdersVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * Description:
@@ -32,7 +35,10 @@ public class ReportFormController {
     }
     @PostMapping("/order")
     public ResponseDTO selectStoreOrder(@RequestBody OrdersVo ordersVo) {
-        System.out.println(ordersVo);
         return reportFormService.selectStoreOrder(ordersVo);
+    }
+    @PostMapping("/allOrder")
+    public ResponseDTO selectOrder(@RequestBody OrdersVo ordersVo) {
+        return reportFormService.selectOrder(ordersVo);
     }
 }

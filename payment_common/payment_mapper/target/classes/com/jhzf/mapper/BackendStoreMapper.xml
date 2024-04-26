@@ -13,7 +13,7 @@
             AND store_id_num = #{storeIdNum}
         </if>
         <if test="storeName != null and storeName != ''">
-            AND storeName = #{storeName}
+            AND store_name LIKE CONCAT('%', #{storeName}, '%')
         </if>
         <if test="storeIsStatus != null and storeIsStatus != ''">
             AND store_is_status = #{storeIsStatus}

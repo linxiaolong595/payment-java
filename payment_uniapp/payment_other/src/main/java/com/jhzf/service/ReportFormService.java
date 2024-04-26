@@ -14,6 +14,9 @@ public interface ReportFormService {
     ResponseDTO selectStoreName(int userId);
     ResponseDTO selectStoreMoney(String[] data,int storeId,int userId);
 
-    ////查找店铺所有订单
+    //查找店铺所有订单并统计
     ResponseDTO selectStoreOrder(OrdersVo ordersVo);
+
+    //查找店铺所有订单
+    ResponseDTO selectOrder(OrdersVo ordersVo);
 }
