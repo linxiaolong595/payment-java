@@ -8,7 +8,7 @@ public class PaymentStore {
   private long storeId;
   private String storeName;
   private String storeHeadImage;
-  private String storeCreateTime;
+  private String sotreCreatetime;
   private String storeNumber;
   private String storeIdentifyImage;
   private String storeIdentifyCardFront;
@@ -22,4 +22,5 @@ public class PaymentStore {
   private double storeUsableMoney;
   private double storeAuditMoney;
   private String userAccount; // 用户表中的手机号字段
+  private String userName;
 }

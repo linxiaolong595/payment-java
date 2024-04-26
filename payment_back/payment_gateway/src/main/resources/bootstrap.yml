@@ -11,6 +11,8 @@ spring:
         file-extension: yml
         name: mybatis-config
         refresh-enabled: true  #配置中心文件改了，默认会更新上来
-        shared-configs: #共享配置
+        shared-configs:
           - data-id: redis-config.yml
             group: DEFAULT_GROUP
+#        shared-configs:     #共享配置
+#          - data-id:

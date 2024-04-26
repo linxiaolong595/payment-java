@@ -5,4 +5,5 @@ import lombok.Data;
 @Data
 public class StoreVo {
     private int userId;
+    private int storeId;
 }

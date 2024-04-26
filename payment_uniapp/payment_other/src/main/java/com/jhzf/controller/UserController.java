@@ -46,4 +46,20 @@ public class UserController {
     public ResponseDTO messageCodeLogin(@RequestBody LoginVo loginVo){
         return userService.messageCodeLogin(loginVo.getAccount(),loginVo.getCode());
     }
+    @PostMapping("/getCashOutMoney")
+    public ResponseDTO getCashOutMoney(@RequestBody UserVo userVo){
+        return userService.getCashOutMoney(userVo.getUserId());
+    }
+    @PostMapping("/getCashOutStore")
+    public ResponseDTO getCashOutStore(@RequestBody UserVo userVo){
+        return userService.getCashOutStore(userVo.getUserId());
+    }
+    @PostMapping("/getStoreCashOutMoney")
+    public ResponseDTO getStoreCashOutMoney(@RequestBody StoreVo storeVo){
+        return userService.getStoreCashMoney(storeVo.getStoreId(),storeVo.getUserId());
+    }
+    @PostMapping("/doCashOut")
+    public ResponseDTO doCastOut(@RequestBody PayOutVo payOutVo){
+        return userService.doCashOut(payOutVo);
+    }
 }
