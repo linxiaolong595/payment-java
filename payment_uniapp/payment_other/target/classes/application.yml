@@ -1,5 +1,11 @@
-#server:
-#  port: 8125
+server:
+  port: 8081
+  address: 127.0.0.1
 spring:
   application:
     name: payment-other #微服务的名字，用于注册到ncaos
+  web:
+    resources:
+      static-locations: classpath:/static/,file:${upload-dir}
+
+upload-dir: D:\\img\\
