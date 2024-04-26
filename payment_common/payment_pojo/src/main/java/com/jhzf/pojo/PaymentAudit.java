@@ -15,4 +15,6 @@ public class PaymentAudit {
   private String auditStoreIdentifyCardFront;
   private String auditStoreIdentifyCardBack;
   private String auditSotreCreatetime;
+  private String userAccount; // 用户表中的手机号字段
+  private String userName;// 用户表中的用户名字段
 }

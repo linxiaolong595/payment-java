@@ -1,6 +1,7 @@
 package com.jhzf.service;
 
 import com.jhzf.util.ResponseDTO;
+import com.jhzf.vo.admin.AdminAuthorityVo;
 
 /**
  * @author 吴政顺
@@ -8,4 +9,5 @@ import com.jhzf.util.ResponseDTO;
  */
 public interface AdminAuthorityService {
     ResponseDTO getAuthority(int adminId);
+    ResponseDTO updateAuthority(AdminAuthorityVo vo);
 }

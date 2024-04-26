@@ -22,4 +22,5 @@ public class PaymentStore {
   private double storeUsableMoney;
   private double storeAuditMoney;
   private String userAccount; // 用户表中的手机号字段
+  private String userName;
 }
