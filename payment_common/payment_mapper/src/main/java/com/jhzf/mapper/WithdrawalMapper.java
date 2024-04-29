@@ -1,6 +1,7 @@
 package com.jhzf.mapper;
 
 import com.jhzf.pojo.PaymentPayouts;
+import com.jhzf.vo.order.AuditingVo;
 import com.jhzf.vo.order.WithdrawalVo;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -13,5 +14,6 @@ import java.util.List;
 @Mapper
 public interface WithdrawalMapper {
     List<PaymentPayouts> WithdrawalOlder(WithdrawalVo vo);  //查询提现待审核订单
-    PaymentPayouts WithdrawalDetails(int payoutsId);
+    int withdrawalAuditing(AuditingVo vo); //提现订单审核
+    PaymentPayouts WithdrawalDetails(int payoutsId);  //提现订单详情
 }

@@ -53,4 +53,17 @@
             AND audit_status &lt;= #{endDate}
         </if>
     </select>
+    <!--获取审核店铺信息-->
+    <select id="getReviewStoreInfoMapper" resultType="com.jhzf.pojo.PaymentAudit">
+        SELECT pa.*, pu.*
+        FROM payment_audit as pa
+        LEFT JOIN payment_user as pu on pu.user_id = pa.audit_user_id
+        WHERE pa.audit_id = #{auditId}
+    </select>
+    <!--提交店铺审核-->
+    <update id="getReviewAuditingMapper">
+        UPDATE payment_audit
+        SET audit_status = #{auditStatus},audit_suggestion = #{auditSuggestion}
+        WHERE audit_id = #{auditId}
+    </update>
 </mapper>

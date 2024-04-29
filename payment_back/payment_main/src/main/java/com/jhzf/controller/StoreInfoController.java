@@ -2,6 +2,7 @@ package com.jhzf.controller;
 
 import com.jhzf.service.impl.StoreInfoServiceImpl;
 import com.jhzf.util.ResponseDTO;
+import com.jhzf.vo.audit.AuditCommitVo;
 import com.jhzf.vo.store.SelectStoreVo;
 import com.jhzf.vo.store.StoreReviewVo;
 import com.jhzf.vo.store.StoreVo;
@@ -43,4 +44,9 @@ public class StoreInfoController {
         return storeInfoService.getReviewStoreInfo(auditId);
     }
 
+    //提交店铺审核
+    @PostMapping("/auditing")
+    public ResponseDTO ReviewAuditing(@RequestBody AuditCommitVo vo){
+        return storeInfoService.getReviewAuditing(vo);
+    }
 }

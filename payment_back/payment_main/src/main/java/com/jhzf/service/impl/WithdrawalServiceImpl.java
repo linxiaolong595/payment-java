@@ -8,6 +8,7 @@ import com.jhzf.service.WithdrawalService;
 import com.jhzf.util.PageResult;
 import com.jhzf.util.PageUtils;
 import com.jhzf.util.ResponseDTO;
+import com.jhzf.vo.order.AuditingVo;
 import com.jhzf.vo.order.WithdrawalVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,6 +38,17 @@ public class WithdrawalServiceImpl implements WithdrawalService {
             return ResponseDTO.error(201,"查询失败,未找到提现审核订单");
         }
     }
+    //提现订单审核
+    @Override
+    public ResponseDTO withdrawalAuditing(AuditingVo vo) {
+        int res = withdrawalMapper.withdrawalAuditing(vo);
+        if (res > 0){
+            return ResponseDTO.success(200,"success",res);
+        }else {
+            return ResponseDTO.success(201,"更新失败");
+        }
+    }
+
     //提现订单详情
     @Override
     public ResponseDTO WithdrawalDetails(int payoutsId) {

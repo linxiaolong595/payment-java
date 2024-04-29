@@ -1,6 +1,7 @@
 package com.jhzf.service;
 
 import com.jhzf.util.ResponseDTO;
+import com.jhzf.vo.order.AuditingVo;
 import com.jhzf.vo.order.WithdrawalVo;
 
 /**
@@ -9,5 +10,6 @@ import com.jhzf.vo.order.WithdrawalVo;
  */
 public interface WithdrawalService {
     ResponseDTO WithdrawalOlder(WithdrawalVo vo);//查询提现审核订单
+    ResponseDTO withdrawalAuditing(AuditingVo vo);//提现订单审核
     ResponseDTO WithdrawalDetails(int payoutsId);//提现订单详情
 }
