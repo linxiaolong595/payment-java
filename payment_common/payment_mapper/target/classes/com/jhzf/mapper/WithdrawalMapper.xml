@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jhzf.mapper.WithdrawalMapper">
+    <!--提现订单审核-->
+    <update id="withdrawalAuditing">
+        UPDATE payment_payouts
+        SET payouts_status = #{payoutsStatus}, payouts_remarks = #{payoutsRemarks}
+        WHERE payouts_id = #{payoutsId}
+    </update>
     <!--查询提现待审核订单-->
     <select id="WithdrawalOlder" resultType="com.jhzf.pojo.PaymentPayouts">
         SELECT pp.*,pu.*

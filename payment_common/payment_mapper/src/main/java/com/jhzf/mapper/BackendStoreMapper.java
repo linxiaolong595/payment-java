@@ -3,6 +3,7 @@ package com.jhzf.mapper;
 import com.jhzf.pojo.PaymentAudit;
 import com.jhzf.pojo.PaymentStore;
 import com.jhzf.util.ResponseDTO;
+import com.jhzf.vo.audit.AuditCommitVo;
 import com.jhzf.vo.store.SelectStoreVo;
 import com.jhzf.vo.store.StoreReviewVo;
 import com.jhzf.vo.store.StoreVo;
@@ -22,5 +23,7 @@ public interface BackendStoreMapper {
 
     List<PaymentAudit> getReviewStoreMapper(StoreReviewVo vo);//查询审核表的店铺信息
 
-    List<PaymentAudit> getReviewStoreInfoMapper(int auditId); //获取审核店铺信息
+    PaymentAudit getReviewStoreInfoMapper(int auditId); //获取审核店铺信息
+
+    int getReviewAuditingMapper(AuditCommitVo vo); //提交店铺审核
 }

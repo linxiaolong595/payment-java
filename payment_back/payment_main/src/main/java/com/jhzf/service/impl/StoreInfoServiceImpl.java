@@ -8,6 +8,7 @@ import com.jhzf.service.StoreInfoService;
 import com.jhzf.util.PageResult;
 import com.jhzf.util.PageUtils;
 import com.jhzf.util.ResponseDTO;
+import com.jhzf.vo.audit.AuditCommitVo;
 import com.jhzf.vo.store.SelectStoreVo;
 import com.jhzf.vo.store.StoreReviewVo;
 import com.jhzf.vo.store.StoreVo;
@@ -66,12 +67,23 @@ public class StoreInfoServiceImpl implements StoreInfoService {
             return ResponseDTO.error(201,"查询失败,未找到待审核商家信息");
         }
     }
+    //提交店铺审核
+    @Override
+    public ResponseDTO getReviewAuditing(AuditCommitVo vo) {
+        int res = backendStoreMapper.getReviewAuditingMapper(vo);
+        if (res > 0){
+            return ResponseDTO.success(200,"success");
+        }else {
+            return ResponseDTO.success(201,"更新失败");
+        }
+    }
+
     //查询审核店铺信息
     @Override
     public ResponseDTO getReviewStoreInfo(int auditId) {
-        List<PaymentAudit> paymentAudit = backendStoreMapper.getReviewStoreInfoMapper(auditId);
-        if (paymentAudit != null){
-            return ResponseDTO.success(200,"success",paymentAudit);
+        PaymentAudit res = backendStoreMapper.getReviewStoreInfoMapper(auditId);
+        if (res != null){
+            return ResponseDTO.success(200,"success",res);
         }else {
             return ResponseDTO.success(201,"error");
         }
