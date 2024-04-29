@@ -66,4 +66,14 @@ public class StoreInfoServiceImpl implements StoreInfoService {
             return ResponseDTO.error(201,"查询失败,未找到待审核商家信息");
         }
     }
+    //查询审核店铺信息
+    @Override
+    public ResponseDTO getReviewStoreInfo(int auditId) {
+        List<PaymentAudit> paymentAudit = backendStoreMapper.getReviewStoreInfoMapper(auditId);
+        if (paymentAudit != null){
+            return ResponseDTO.success(200,"success",paymentAudit);
+        }else {
+            return ResponseDTO.success(201,"error");
+        }
+    }
 }

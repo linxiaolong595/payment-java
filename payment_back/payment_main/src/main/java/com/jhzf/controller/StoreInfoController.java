@@ -36,4 +36,11 @@ public class StoreInfoController {
     public ResponseDTO PendingInformation(@RequestBody StoreReviewVo vo){
         return storeInfoService.getReviewStore(vo);
     }
+
+    //查询审核店铺信息
+    @GetMapping("/ReviewStoreInformation")
+    public ResponseDTO ReviewStoreInformation(@RequestParam int auditId){
+        return storeInfoService.getReviewStoreInfo(auditId);
+    }
+
 }

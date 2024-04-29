@@ -21,4 +21,6 @@ public interface BackendStoreMapper {
     PaymentStore getInformationMapper(int storeId); //获取商家认证信息
 
     List<PaymentAudit> getReviewStoreMapper(StoreReviewVo vo);//查询审核表的店铺信息
+
+    List<PaymentAudit> getReviewStoreInfoMapper(int auditId); //获取审核店铺信息
 }
