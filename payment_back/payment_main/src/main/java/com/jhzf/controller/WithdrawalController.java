@@ -1,10 +1,11 @@
 package com.jhzf.controller;
 
+import com.beust.jcommander.Parameters;
+import com.jhzf.service.impl.WithdrawalServiceImpl;
 import com.jhzf.util.ResponseDTO;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.jhzf.vo.order.WithdrawalVo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author 吴政顺
@@ -14,9 +15,17 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin
 @RequestMapping("/withdrawal")
 public class WithdrawalController {
+    @Autowired
+    private WithdrawalServiceImpl withdrawalService;
     //查询提现审核订单
     @PostMapping("/order")
-    private ResponseDTO withdrawalOrder(){
-        return null;
+    public ResponseDTO withdrawalOrder(@RequestBody WithdrawalVo vo){
+        System.out.println("vo11111"+vo);
+        return withdrawalService.WithdrawalOlder(vo);
+    }
+    //提现订单详情请
+    @GetMapping("/details")
+    public ResponseDTO withdrawalDetails(@RequestParam int payoutsId){
+        return withdrawalService.WithdrawalDetails(payoutsId);
     }
 }
