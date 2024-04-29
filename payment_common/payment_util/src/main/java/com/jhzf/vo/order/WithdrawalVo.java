@@ -8,4 +8,10 @@ import lombok.Data;
  */
 @Data
 public class WithdrawalVo {
+    private String payoutsNumber;
+    private String userName;
+    private String payoutsTime;
+    private String payoutsStatus;
+    private int pageNum;
+    private int pageSize;
 }
