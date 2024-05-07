@@ -20,6 +20,8 @@ public interface UserMapper {
 
     // 账号密码登录
     PaymentUser accountLogin(@Param("account")String account,@Param("pwd")String pwd);
+    // 短信登录
+    PaymentUser messageCodeLogin(@Param("account")String account);
 
     // 查询每个店可提现金额总量
     List<PaymentStore> selectStoreInfo(@Param("userId")int userId);
