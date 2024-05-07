@@ -25,6 +25,9 @@
     <update id="updateAuditMoney">
         update payment_store set store_audit_money = #{auditMoney} where store_id = #{storeId}
     </update>
+    <update id="updateUserPwd">
+        update payment_user set user_pwd = #{pwd} where user_account = #{account}
+    </update>
     <update id="updateOrderAuditStatus">
         update payment_order set order_auditselect_status = 1 where order_store_id = #{storeId} and order_createtime between #{startTime} and #{endTime}
     </update>
