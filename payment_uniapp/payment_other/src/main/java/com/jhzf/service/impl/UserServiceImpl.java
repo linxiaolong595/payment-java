@@ -143,4 +143,23 @@ public class UserServiceImpl implements UserService {
         userMapper.updateStoreCashOutMoney(payOutVo.getStoreId(),cashOutMoney);
         return ResponseDTO.success(200, "提现成功", null);
     }
+    @Override
+    public ResponseDTO resetPwd(ResetPwdVo resetPwdVo) {
+        int user = userMapper.selectUser(resetPwdVo.getAccount());
+        if(user == 1){
+            if(resetPwdVo.getPwd().equals(resetPwdVo.getConfirmPwd())){
+                String messageCode = redisTemplate.opsForValue().get(resetPwdVo.getAccount());
+                if(resetPwdVo.getCode().equals(messageCode)){
+                    userMapper.updateUserPwd(resetPwdVo.getAccount(), Md5.getString(resetPwdVo.getPwd()));
+                    return ResponseDTO.success(200,"修改成功");
+                }else{
+                    return ResponseDTO.error(202,"验证码输入错误");
+                }
+            }else{
+                return ResponseDTO.error(201,"两次输入的密码不一致");
+            }
+        }else{
+            return ResponseDTO.error(204,"用户不存在,请先去注册");
+        }
+    }
 }
