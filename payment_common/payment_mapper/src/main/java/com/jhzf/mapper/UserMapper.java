@@ -42,4 +42,6 @@ public interface UserMapper {
     PaymentStore cashOutStoreInfo(@Param("storeId")int storeId);
     int updateStoreCashOutMoney(@Param("storeId")int storeId,@Param("cashOutMoney")double cashOutMoney);
 
+    // 忘记密码
+    int updateUserPwd(@Param("account")String account,@Param("pwd")String pwd);
 }
