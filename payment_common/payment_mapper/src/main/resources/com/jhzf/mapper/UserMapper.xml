@@ -97,4 +97,7 @@
     <select id="cashOutStoreInfo" resultType="com.jhzf.pojo.PaymentStore">
         select payment_store.* from payment_store where payment_store.store_id = #{storeId}
     </select>
+    <select id="messageCodeLogin" resultType="com.jhzf.pojo.PaymentUser">
+        select * from payment_user where user_account = #{account}
+    </select>
 </mapper>
