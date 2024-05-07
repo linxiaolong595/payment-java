@@ -62,4 +62,8 @@ public class UserController {
     public ResponseDTO doCastOut(@RequestBody PayOutVo payOutVo){
         return userService.doCashOut(payOutVo);
     }
+    @PostMapping("/resetPwd")
+    public ResponseDTO resetPwd(@RequestBody ResetPwdVo resetPwdVo){
+        return userService.resetPwd(resetPwdVo);
+    }
 }
