@@ -54,11 +54,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ResponseDTO messageCodeLogin(String account, String code) {
-        int count = userMapper.selectUser(account);
-        if(count == 1){
+         PaymentUser user = userMapper.messageCodeLogin(account);
+        if(user != null){
             String messageCode = redisTemplate.opsForValue().get(account);
             if(code.equals(messageCode)){
-                return ResponseDTO.success(200,"登录成功",null);
+                return ResponseDTO.success(200,"登录成功",user);
             }else{
                 return ResponseDTO.error(0,"验证码错误");
             }
