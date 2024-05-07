@@ -113,4 +113,25 @@
             </if>
         </where>
     </select>
+        <select id="getPrimaryAccountAbnormalOrder" resultType="com.jhzf.pojo.PaymentOrder">
+        select * from payment_order where order_status = 1 and order_reback = 0 and order_store_id = #{storeId}
+    </select>
+    <select id="selectUser" resultType="com.jhzf.pojo.PaymentUser">
+        select * from payment_user where user_id = #{userId}
+    </select>
+    <select id="selectPrimaryAccountStore" resultType="java.lang.Integer">
+        select store_id from payment_store where store_primary_account_id = #{userId}
+    </select>
+    <select id="selectUserAccountStore" resultType="java.lang.Integer">
+        select store_id from payment_store where store_subsidiary_account_id = #{userId}
+    </select>
+    <select id="primaryAccountAbnormalOrder" resultType="com.jhzf.pojo.PaymentOrder">
+        select * from payment_order where order_status = 1 and order_reback = 0 and order_store_id in<foreach
+            collection="storeId" index="index" open="(" close=")" item="item" separator=",">
+        #{item}
+    </foreach>
+    </select>
+    <select id="songAccountAbnormalOrder" resultType="com.jhzf.pojo.PaymentOrder">
+        select * from payment_order where order_store_id = #{storeId} and order_status = 1 and order_reback = 0
+    </select>
 </mapper>
