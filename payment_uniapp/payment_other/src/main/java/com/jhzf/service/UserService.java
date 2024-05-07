@@ -21,4 +21,5 @@ public interface UserService {
     ResponseDTO getCashOutStore(int userId);
     ResponseDTO getStoreCashMoney(int storeId,int userId);
     ResponseDTO doCashOut(PayOutVo payOutVo);
+    ResponseDTO resetPwd(ResetPwdVo resetPwdVo);
 }
