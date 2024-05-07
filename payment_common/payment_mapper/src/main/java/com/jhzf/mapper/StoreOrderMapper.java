@@ -25,4 +25,13 @@ public interface StoreOrderMapper {
 
     //后台订单组合查询
     List<PaymentOrder> getStoreOrderBack(StoreOrderVo storeOrderVo);
+    // 主账号异常订单
+    List<PaymentOrder> primaryAccountAbnormalOrder(@Param("storeId")List<Integer> storeId);
+    // 子账号异常订单
+    List<PaymentOrder> songAccountAbnormalOrder(@Param("storeId")int storeId);
+    // 查询登录的用户是否是主账号
+    PaymentUser selectUser(@Param("userId")int userId);
+    List<Integer> selectPrimaryAccountStore(@Param("userId")int userId);
+    Integer selectUserAccountStore(@Param("userId")int userId);
+    Double getAuditMoney(@Param("storeId")int storeId);
 }
