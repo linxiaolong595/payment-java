@@ -20,6 +20,9 @@ public class ResponseDTO {
     public static ResponseDTO success(int code,String msg) {
         return new ResponseDTO(code,msg,null);
     }
+    public static ResponseDTO success(Object data) {
+        return new ResponseDTO(200,"success",data);
+    }
     public static ResponseDTO success(String msg) {
         return new ResponseDTO(1,msg,null);
     }

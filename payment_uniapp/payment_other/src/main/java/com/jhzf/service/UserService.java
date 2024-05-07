@@ -3,6 +3,7 @@ package com.jhzf.service;
 import com.jhzf.util.ResponseDTO;
 import com.jhzf.vo.user.LoginVo;
 import com.jhzf.vo.user.ModifyPwdVo;
+import com.jhzf.vo.user.PayOutVo;
 
 public interface UserService {
     ResponseDTO modifyPwd(ModifyPwdVo vo);
