@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jhzf.mapper.PaymentMapper">
+
+
+    <insert id="insertOrder">
+        INSERT INTO payment_order (order_number, order_callback_number, order_money, order_store_id,order_createtime,order_payway) VALUES (#{orderNumber}, #{orderCallbackNumber}, #{orderMoney}, #{orderStoreId}, #{orderCreateTime},#{orderPayWay})
+    </insert>
+</mapper>
