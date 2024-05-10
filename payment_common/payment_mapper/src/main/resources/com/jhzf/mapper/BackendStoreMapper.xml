@@ -41,16 +41,16 @@
             AND user_account = #{userAccount}
         </if>
         <if test="auditStoreName != null and auditStoreName != ''">
-            AND audit_store_name = #{auditStoreName}
+            AND audit_store_name LIKE CONCAT('%', #{auditStoreName}, '%')
         </if>
         <if test="auditStatus != null and auditStatus != ''">
             AND audit_status = #{auditStatus}
         </if>
         <if test="startDate != null and startDate != ''">
-            AND audit_status &gt;= #{startDate}
+            AND pa.audit_store_create_time &gt;= #{startDate}
         </if>
         <if test="endDate != null  and endDate != ''">
-            AND audit_status &lt;= #{endDate}
+            AND pa.audit_store_create_time &lt;= #{endDate}
         </if>
     </select>
     <!--获取审核店铺信息-->
@@ -65,5 +65,20 @@
         UPDATE payment_audit
         SET audit_status = #{auditStatus},audit_suggestion = #{auditSuggestion}
         WHERE audit_id = #{auditId}
+    </update>
+
+    <!--查询并插入审核店铺到店铺表-->
+    <insert id="insetStoreMapper" parameterType="com.jhzf.pojo.PaymentStore" useGeneratedKeys="true" keyProperty="storeId">
+        INSERT INTO payment_store (store_name,store_head_image,store_createtime,store_number,
+        store_identify_image,store_identify_card_front,store_identify_card_back,store_rake,
+        store_primary_account_id,store_subsidiary_account_id,store_is_status,store_is_delete,
+        store_id_num,store_usable_money,store_audit_money) value (#{auditStoreName},#{auditStoreHeadImage},
+        NOW(),#{auditStoreNumber},#{auditStoreIdentifyImage},#{auditStoreIdentifyCardFront},
+        #{auditStoreIdentifyCardBack},NULL,#{auditUserId},NULL,0,0,NULL,0,0)
+    </insert>
+    <!--更新二维码和商户号-->
+    <update id="UpdateStore">
+        UPDATE payment_store SET store_rake = 123,store_id_num = 123
+        WHERE store_id = #{storeId}
     </update>
 </mapper>

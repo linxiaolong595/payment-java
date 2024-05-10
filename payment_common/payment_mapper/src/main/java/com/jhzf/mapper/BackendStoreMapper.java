@@ -8,6 +8,7 @@ import com.jhzf.vo.store.SelectStoreVo;
 import com.jhzf.vo.store.StoreReviewVo;
 import com.jhzf.vo.store.StoreVo;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -26,4 +27,8 @@ public interface BackendStoreMapper {
     PaymentAudit getReviewStoreInfoMapper(int auditId); //获取审核店铺信息
 
     int getReviewAuditingMapper(AuditCommitVo vo); //提交店铺审核
+
+    int insetStoreMapper(PaymentAudit payment); //插入审核店铺到店铺表
+
+    int UpdateStore(@Param("storeId") int storeId, @Param("code") String code, @Param("storeNum") String storeNum); //插入二维码和商户号
 }

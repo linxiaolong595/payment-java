@@ -44,9 +44,15 @@ public class StoreInfoController {
         return storeInfoService.getReviewStoreInfo(auditId);
     }
 
-    //提交店铺审核
+    //提交店铺审核通过
     @PostMapping("/auditing")
     public ResponseDTO ReviewAuditing(@RequestBody AuditCommitVo vo){
         return storeInfoService.getReviewAuditing(vo);
+    }
+
+    //提交店铺审核通过
+    @PostMapping("/noAuditing")
+    public ResponseDTO NoReviewAuditing(@RequestBody AuditCommitVo vo){
+        return storeInfoService.getNoReviewAuditing(vo);
     }
 }

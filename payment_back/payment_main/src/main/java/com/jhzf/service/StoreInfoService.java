@@ -15,6 +15,7 @@ public interface StoreInfoService {
     ResponseDTO getStoreInfo(SelectStoreVo selectStoreVo); //查询商家信息
     ResponseDTO getInformation(int storeId); //获取商家认证信息
     ResponseDTO getReviewStore(StoreReviewVo vo); //查询审核表的店铺信息
-    ResponseDTO getReviewAuditing(AuditCommitVo vo); //提交店铺审核
+    ResponseDTO getReviewAuditing(AuditCommitVo vo); //提交店铺审通过
+    ResponseDTO getNoReviewAuditing(AuditCommitVo vo); //提交店铺审没通过
     ResponseDTO getReviewStoreInfo(int auditId); //查询审核表的店铺信息
 }
