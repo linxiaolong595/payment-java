@@ -9,21 +9,92 @@
 <div class="container">
     <div class="img-box"><img src="/logo.png" alt=""></div>
     <p class="title">向${storeMsg.subject}付款</p>
-<!--    <p class="money-title">付款的金额：</p>-->
-    <input type="text" placeholder="请输入金额">
+    <input type="number" id="amountInput" placeholder="请输入金额">
 </div>
-<button id="payButton">支付</button>
-
+<button id="payButton" data-openid="${storeMsg.openid}" data-storeid="${storeMsg.storeId}">支付</button>
 </body>
 </html>
+
 <script>
+    var amountInput = document.getElementById('amountInput');
     // 获取按钮元素
     var button = document.getElementById('payButton');
     // 添加点击事件监听器
     button.addEventListener('click', function() {
-        // 当按钮被点击时，执行这里的代码
-        alert('未来会拉起微信支付！');
-        // 这里可以添加你想要执行的其他操作，比如触发支付流程等
+        button.disabled = true;
+        button.style.backgroundColor = '#b6abab'; // 设置背景颜色为灰色
+        var openid = button.getAttribute('data-openid');
+        var storeId = button.getAttribute('data-storeid');
+        var amount = amountInput.value;
+        // 验证支付金额是否大于等于最小支付金额（0.01元）
+        if (amount < 0.01) {
+            alert("支付金额必须大于等于0.01元");
+            button.disabled = false;
+            button.style.backgroundColor = 'red';
+            return;
+        }
+        console.log(openid); // 打印 openid
+        // 构造要发送的数据对象
+        var data = {
+            openid: openid,
+            amount: amount * 100,
+            storeId: storeId,
+            // 其他需要发送的数据字段
+        };
+        // 发送 POST 请求到后端
+        fetch('http://payproject.mynatapp.cc/wechat/createOrder', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        }).then(response => {
+                return response.json();
+            }).then(data  => {
+                function onBridgeReady(data) {
+                    WeixinJSBridge.invoke('getBrandWCPayRequest', {
+                        "appId": data.data.appId,
+                        "timeStamp": data.data.timeStamp.toString(),
+                        "nonceStr": data.data.nonceStr,
+                        "package": "prepay_id=" + data.data.package,
+                        "signType": "RSA",
+                        "paySign": data.data.paySign
+                    }, function(res) {
+                        if (res.err_msg === "get_brand_wcpay_request:ok") {
+                            // 用户支付成功后的处理逻辑
+                            window.close();
+                            // 跳转到新页面
+                            window.location.href = 'http://payproject.mynatapp.cc/wechat/advertisement';
+                        } else {
+                            // 用户支付失败或取消支付的处理逻辑
+                            button.disabled = false;
+                            button.style.backgroundColor = 'red';
+                            alert("您取消了支付")
+                        }
+                    });
+                }
+                if (typeof WeixinJSBridge == "undefined") {
+                    if (document.addEventListener) {
+                        document.addEventListener('WeixinJSBridgeReady', function() {
+                            onBridgeReady(data);
+                        }, false);
+                    } else if (document.attachEvent) {
+                        document.attachEvent('WeixinJSBridgeReady', function() {
+                            onBridgeReady(data);
+                        });
+                        document.attachEvent('onWeixinJSBridgeReady', function() {
+                            onBridgeReady(data);
+                        });
+                    }
+                } else {
+                    onBridgeReady(data);
+                }
+            })
+            .catch(error => {
+                // 请求失败处理
+                console.error('There was a problem with your fetch operation:', error);
+                alert(error)
+            });
     });
 </script>
 <style>

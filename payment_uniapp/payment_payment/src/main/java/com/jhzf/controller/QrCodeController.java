@@ -1,19 +1,18 @@
 package com.jhzf.controller;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
+import com.jhzf.config.MtWeChatConstant;
 import com.jhzf.service.QrCodeService;
 import com.jhzf.util.ResponseDTO;
 import com.jhzf.vo.user.QrCodeVo;
+import com.sun.deploy.net.URLEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ServerWebExchange;
+import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
-import java.util.List;
-
 
 @Controller
 @RequestMapping("/qrCode")
@@ -21,7 +20,7 @@ public class QrCodeController{
     @Autowired
     private QrCodeService qrCodeService;
 
-    //生成验证码
+    //生成二维码
     @ResponseBody
     @PostMapping("/createCode")
     public ResponseDTO createCode(@RequestBody QrCodeVo vo){
@@ -30,10 +29,9 @@ public class QrCodeController{
         return null;
     }
 
-
     //识别二维码
     @GetMapping("/pay-entry/{ticket}")
-    public String payEntry(@PathVariable("ticket")String ticket, Model model, ServerWebExchange exchange) {
+    public String payEntry(@PathVariable("ticket")String ticket, Model model,@RequestHeader(value = "user-agent", required = false) String userAgent) throws UnsupportedEncodingException {
         System.out.println(ticket);
         // 解码 Base64 编码的数据
         byte[] decodedBytes = Base64.getUrlDecoder().decode(ticket);
@@ -46,24 +44,17 @@ public class QrCodeController{
         System.out.println(jsonObject);
         // 将解析后的参数添加到模型中
         model.addAttribute("storeMsg", jsonObject);
-        try {
-            // 获取请求头
-            HttpHeaders headers = exchange.getRequest().getHeaders();
-            // 获取特定头部信息
-            List<String> contentTypeList = headers.get("user-agent");
-            if (contentTypeList != null && !contentTypeList.isEmpty()) {
-                String userAgent = contentTypeList.get(0);
-                if (userAgent != null && userAgent.contains("AlipayClient")) {
-                    System.out.println("使用的是支付宝扫描");
-                    return "pay";
-                }
-                if (userAgent != null && userAgent.contains("MicroMessenger")) {
-                    System.out.println("使用的是微信扫描");
-                    return "pay";
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (userAgent != null && userAgent.contains("AlipayClient")) {
+            System.out.println("使用的是支付宝扫描");
+            return "pay";
+        }
+        if (userAgent != null && userAgent.contains("MicroMessenger")) {
+            System.out.println("使用的是微信扫描");
+            String encodedRedirectUri = URLEncoder.encode(MtWeChatConstant.PAY_OAUTH_CODE_URL, StandardCharsets.UTF_8.toString());
+            String url = String.format("https://open.weixin.qq.com/connect/oauth2/authorize?appid=%s&redirect_uri=%s" +
+                    "&response_type=code&scope=snsapi_base&state=%s#wechat_redirect", MtWeChatConstant.APP_ID,
+                    encodedRedirectUri,ticket);
+            return "redirect:" + url;
         }
         return "payError";
     }

@@ -8,6 +8,32 @@
         <result property="userName" column="usr_name" />
 
     </resultMap>
+    <resultMap id="cashOutMoneyMap" type="com.jhzf.pojo.PaymentUser">
+        <id property="userId" column="user_id" ></id>
+        <result property="userAccount" column="user_account" />
+        <association property="paymentStore" javaType="com.jhzf.pojo.PaymentStore">
+            <result property="storeUsableMoney" column="store_usable_money"/>
+        </association>
+    </resultMap>
+
+    <update id="updateCashMoney">
+        update payment_store set store_usable_money = #{cashOutMoney} where store_id = #{storeId}
+    </update>
+    <update id="updateOrderSelectStatus">
+        update payment_order set order_select_status = 1 where order_store_id = #{storeId} and order_createtime between #{startTime} and #{endTime}
+    </update>
+    <update id="updateAuditMoney">
+        update payment_store set store_audit_money = #{auditMoney} where store_id = #{storeId}
+    </update>
+    <update id="updateOrderAuditStatus">
+        update payment_order set order_auditselect_status = 1 where order_store_id = #{storeId} and order_createtime between #{startTime} and #{endTime}
+    </update>
+    <update id="updateStoreCashOutMoney">
+        update payment_store set store_usable_money = #{cashOutMoney} where store_id = #{storeId}
+    </update>
+    <insert id="doCashOut">
+        insert into payment_payouts(payouts_money,payouts_store_id,payouts_card) values (#{payoutMoney},#{storeId},#{payoutCard})
+    </insert>
 
     <update id="modifyPwd">
         UPDATE payment_user SET user_pwd = #{newPwd} WHERE user_id = #{userId};
@@ -26,6 +52,51 @@
     </select>
     <select id="accountLogin" resultMap="userMap">
         select * from payment_user where user_account = #{account} and user_pwd = #{pwd}
+    </select>
+    <select id="getCashOutMoney" resultType="java.lang.Double">
+        select
+            ifnull(sum(order_money),0)
+        from
+            payment_order,payment_store
+        where
+            payment_store.store_id = payment_order.order_store_id and
+            payment_store.store_primary_account_id = #{userId} and
+            payment_order.order_createtime between #{startTime} and #{endTime} and
+            payment_order.order_status = 0 and
+            payment_order.order_reback = 0 and
+            payment_order.order_select_status = 0 and
+            payment_order.order_store_id = #{storeId} and
+            payment_order.order_auditselect_status = 1
+    </select>
+    <select id="getAuditingMoney" resultType="java.lang.Double">
+        select
+            ifnull(sum(order_money),0)
+        from
+            payment_order,payment_store
+        where
+            payment_store.store_id = payment_order.order_store_id and
+            payment_store.store_primary_account_id = #{userId} and
+            payment_order.order_createtime between #{startTime} and #{endTime} and
+            payment_order.order_status = 0 and
+            payment_order.order_reback = 0 and
+            payment_order.order_select_status = 0 and
+            payment_order.order_store_id = #{storeId} and
+            payment_order.order_auditselect_status = 0
+    </select>
+    <select id="getCashOutStoreId" resultType="integer">
+        select store_id from payment_store where store_primary_account_id = #{userId}
+    </select>
+    <select id="selectStoreInfo" resultType="com.jhzf.pojo.PaymentStore">
+        select payment_store.* from payment_store where store_primary_account_id = #{userId}
+    </select>
+    <select id="getCashOutStore" resultType="com.jhzf.pojo.PaymentStore">
+        select payment_store.* from payment_store where
+    </select>
+    <select id="getStoreCastOutMoney" resultMap="cashOutMoneyMap">
+        select payment_store.store_usable_money,payment_user.user_account from payment_store,payment_user where payment_store.store_id = #{storeId} and payment_user.user_id = #{userId}
+    </select>
+    <select id="cashOutStoreInfo" resultType="com.jhzf.pojo.PaymentStore">
+        select payment_store.* from payment_store where payment_store.store_id = #{storeId}
     </select>
 
     <update id="authentication">

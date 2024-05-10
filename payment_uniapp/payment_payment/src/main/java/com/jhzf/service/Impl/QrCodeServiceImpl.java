@@ -4,38 +4,37 @@ import com.alibaba.fastjson.JSON;
 import com.jhzf.service.QrCodeService;
 import com.jhzf.util.QRCodeUtil;
 import com.jhzf.vo.user.QrCodeVo;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-
 import java.io.File;
 import java.nio.charset.StandardCharsets;
-import java.text.SimpleDateFormat;
 import java.util.Base64;
-import java.util.Date;
+import java.util.UUID;
 
 @Service
 public class QrCodeServiceImpl implements QrCodeService {
+    @Value("${upload-dir}")
+    private String uploadDir;
+    @Value("${server.address}")
+    private String address;
+    @Value("${server.port}")
+    private String port;
 
-    private static final String RootPath="D:\\HBuilderX";
     private static final String FileFormat=".png";
-    private static final ThreadLocal<SimpleDateFormat> LOCALDATEFORMAT=ThreadLocal.withInitial(() -> new SimpleDateFormat("yyyyMMddHHmmss"));
 
     @Override
     public String createStoreCode(QrCodeVo qrCodeVo) {
-
         //组装url信息
         String urlMsg = JSON.toJSONString(qrCodeVo);
         byte[] utf8Bytes = urlMsg.getBytes(StandardCharsets.UTF_8);
         String urlSafeBase64String = Base64.getUrlEncoder().withoutPadding().encodeToString(utf8Bytes);
-        System.out.println("Base64 编码后的数据:" + urlSafeBase64String);
-
-
-
         //校验商户信息
-        String url = "http://yujenz.natappfree.cc/test/getWXOAuth2Code";
-        System.out.println(url);
-
-        final String fileName=LOCALDATEFORMAT.get().format(new Date());
-        QRCodeUtil.createCodeToFile(url,new File(RootPath),fileName+FileFormat);
-        return null;
+        String url = "http://payproject.mynatapp.cc/qrCode/pay-entry/" + urlSafeBase64String;
+        String fileName = UUID.randomUUID() + FileFormat;
+        QRCodeUtil.createCodeToFile(url,new File(uploadDir), fileName);
+        //返回文件访问路径
+        String backUrl = "http://" + address + ":" + port + "/" + fileName;
+        System.out.println(backUrl);
+        return backUrl;
     }
 }

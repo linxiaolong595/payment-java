@@ -5,7 +5,9 @@
 <mapper namespace="com.jhzf.mapper.ApplicationMapper">
     <!--查看用户的申请进度-->
     <select id="selectAllApplication" resultType="com.jhzf.pojo.PaymentAudit">
-        SELECT * FROM payment_audit WHERE audit_user_id = #{userId}
+        SELECT * FROM payment_audit
+        WHERE audit_user_id = #{userId}
+        ORDER BY audit_store_create_time DESC;
     </select>
     <delete id="cancellationApplication">
         UPDATE payment_audit SET audit_status = 3 WHERE audit_id = #{auditId};

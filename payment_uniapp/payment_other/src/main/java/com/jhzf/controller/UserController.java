@@ -52,6 +52,7 @@ public class UserController {
     }
     @PostMapping("/getCashOutStore")
     public ResponseDTO getCashOutStore(@RequestBody UserVo userVo){
+        System.out.println(userVo);
         return userService.getCashOutStore(userVo.getUserId());
     }
     @PostMapping("/getStoreCashOutMoney")
@@ -60,6 +61,7 @@ public class UserController {
     }
     @PostMapping("/doCashOut")
     public ResponseDTO doCastOut(@RequestBody PayOutVo payOutVo){
+        System.out.println(payOutVo.getPayOutCard() + "银行卡");
         return userService.doCashOut(payOutVo);
     }
 }

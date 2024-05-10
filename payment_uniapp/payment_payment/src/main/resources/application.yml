@@ -17,7 +17,13 @@ spring:
 #    sentinel:
 #      transport:
 #        dashboard: 121.37.212.46:8888
-
+  web:
+    resources:
+      static-locations: classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/,classpath:/templates/,classpath:/static/,file:${upload-dir}
 
 server:
   port: 8081
+  address: 127.0.0.1
+
+#文件上传保存的路径
+upload-dir: D:\\HBuilderX\\
