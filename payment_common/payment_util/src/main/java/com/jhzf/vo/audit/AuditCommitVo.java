@@ -8,7 +8,7 @@ import lombok.Data;
  */
 @Data
 public class AuditCommitVo {
-    private String auditId;
+    private int auditId;
     private int auditStatus;
     private String auditSuggestion;
 }
