@@ -24,4 +24,8 @@ public class StoreOrderController {
     public ResponseDTO getOrderDetail(@RequestBody StoreOrderVo storeOrderVo){
         return storeOrderService.getOrderDetail(storeOrderVo);
     }
+    @GetMapping("/getAbnormalOrder")
+    public ResponseDTO getAbnormalOrder(int userId){
+        return storeOrderService.getAbnormalOrder(userId);
+    }
 }

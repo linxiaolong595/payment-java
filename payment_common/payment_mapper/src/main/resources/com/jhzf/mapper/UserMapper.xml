@@ -25,6 +25,9 @@
     <update id="updateAuditMoney">
         update payment_store set store_audit_money = #{auditMoney} where store_id = #{storeId}
     </update>
+    <update id="updateUserPwd">
+        update payment_user set user_pwd = #{pwd} where user_account = #{account}
+    </update>
     <update id="updateOrderAuditStatus">
         update payment_order set order_auditselect_status = 1 where order_store_id = #{storeId} and order_createtime between #{startTime} and #{endTime}
     </update>
@@ -38,7 +41,6 @@
     <update id="modifyPwd">
         UPDATE payment_user SET user_pwd = #{newPwd} WHERE user_id = #{userId};
     </update>
-
     <select id="selectUserMsg" resultType="com.jhzf.pojo.PaymentUser">
         select * from payment_user where user_pwd = #{oldPwd} and user_id = #{userId};
     </select>
@@ -98,8 +100,7 @@
     <select id="cashOutStoreInfo" resultType="com.jhzf.pojo.PaymentStore">
         select payment_store.* from payment_store where payment_store.store_id = #{storeId}
     </select>
-
-    <update id="authentication">
-        UPDATE payment_user SET user_is_authentication = 1 WHERE user_id = #{userId};
-    </update>
+    <select id="messageCodeLogin" resultType="com.jhzf.pojo.PaymentUser">
+        select * from payment_user where user_account = #{account}
+    </select>
 </mapper>

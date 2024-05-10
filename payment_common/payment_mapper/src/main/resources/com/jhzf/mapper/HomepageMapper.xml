@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.jhzf.mapper.HomepageMapper">
+
+
+    <select id="storeNum" resultType="java.lang.Integer">
+        select count(*)
+        from payment_store where store_is_delete = 0
+    </select>
+    <select id="selectAllStoreMoney" resultType="com.jhzf.pojo.PaymentOrder">
+        SELECT
+            po.*,
+            ps.*
+        FROM
+            payment_order po
+                JOIN
+            payment_store ps ON po.order_store_id = ps.store_id
+        WHERE
+            DATE(po.order_createtime) = #{data};
+    </select>
+    <select id="getLine" resultType="com.jhzf.vo.homepage.GetLineVo">
+        WITH RECURSIVE dates AS (
+            SELECT DATE(#{data.data.[0]}) AS date
+        UNION ALL
+        SELECT DATE_ADD(date, INTERVAL 1 DAY)
+        FROM dates
+        WHERE date &lt; DATE(#{data.data.[1]})
+            )
+        SELECT
+            d.date AS data,
+            COALESCE(SUM(po.order_money), 0) AS money
+        FROM
+            dates d
+                LEFT JOIN
+            payment_order po ON DATE(po.order_createtime) = d.date
+            AND po.order_status = 0
+            AND po.order_reback = 0
+        GROUP BY
+            d.date
+    </select>
+    <select id="getReferer" resultType="com.jhzf.vo.homepage.PaywayVo">
+        SELECT
+            CASE order_payway
+                WHEN '支付宝' THEN '支付宝'
+                WHEN '微信' THEN '微信'
+                END AS name,
+            COUNT(*) AS value
+        FROM
+            payment_order
+        WHERE
+            order_status = 0
+          AND order_reback = 0
+          AND order_createtime BETWEEN #{data.data[0]} AND #{data.data[1]}
+        GROUP BY
+            order_payway
+        HAVING
+            name IN ('支付宝', '微信')
+    </select>
+    <select id="getStepLine" resultType="com.jhzf.vo.homepage.GetStepLineVo">
+        WITH RECURSIVE dates AS (
+        SELECT DATE(#{data.data[0]}) AS date
+        UNION ALL
+        SELECT DATE_ADD(date, INTERVAL 1 DAY)
+        FROM dates
+        WHERE date &lt; DATE(#{data.data[1]})
+        )
+        SELECT
+        d.date AS data,
+        -- 成交金额
+        COALESCE(SUM(CASE WHEN po.order_reback = 0 THEN po.order_money ELSE 0 END), 0) AS 'sum',
+        -- 退款金额
+        COALESCE(SUM(CASE WHEN po.order_reback = 1 THEN po.order_money ELSE 0 END), 0) AS
+            refundSum,
+        -- 成交订单笔数
+        COUNT(CASE WHEN po.order_reback = 0 THEN 1 END) AS 'count'
+        FROM
+        dates d
+        LEFT JOIN
+        payment_order po ON DATE(po.order_createtime) = d.date
+        GROUP BY
+        d.date
+    </select>
+
+</mapper>

@@ -64,4 +64,8 @@ public class UserController {
         System.out.println(payOutVo.getPayOutCard() + "银行卡");
         return userService.doCashOut(payOutVo);
     }
+    @PostMapping("/resetPwd")
+    public ResponseDTO resetPwd(@RequestBody ResetPwdVo resetPwdVo){
+        return userService.resetPwd(resetPwdVo);
+    }
 }

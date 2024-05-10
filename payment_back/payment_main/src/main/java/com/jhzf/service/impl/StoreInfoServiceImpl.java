@@ -8,6 +8,7 @@ import com.jhzf.service.StoreInfoService;
 import com.jhzf.util.PageResult;
 import com.jhzf.util.PageUtils;
 import com.jhzf.util.ResponseDTO;
+import com.jhzf.vo.audit.AuditCommitVo;
 import com.jhzf.vo.store.SelectStoreVo;
 import com.jhzf.vo.store.StoreReviewVo;
 import com.jhzf.vo.store.StoreVo;
@@ -64,6 +65,55 @@ public class StoreInfoServiceImpl implements StoreInfoService {
             return ResponseDTO.success(200,"success",pageResult);
         }else {
             return ResponseDTO.error(201,"查询失败,未找到待审核商家信息");
+        }
+    }
+    //提交店铺审核通过
+    @Override
+    public ResponseDTO getReviewAuditing(AuditCommitVo vo) {
+        int res = backendStoreMapper.getReviewAuditingMapper(vo);
+        if (res > 0){
+            //获取审核表信息
+            PaymentAudit payment = backendStoreMapper.getReviewStoreInfoMapper(vo.getAuditId());
+            if (payment != null){
+                //将审核表信息插入商店表
+                int res1 = backendStoreMapper.insetStoreMapper(payment);
+                if (res1 > 0){
+                    int storeId = payment.getStoreId();
+                    //插入商户号和二维码
+                    int res2 = backendStoreMapper.UpdateStore(storeId,"123","333");
+                    if (res2 > 0){
+                        ResponseDTO.success(200,"更新二维码和商户号成功");
+                    }else {
+                        ResponseDTO.error(201,"更新二维码和商户号失败");
+                    }
+                }else {
+                    return ResponseDTO.success(201,"插入失败");
+                }
+            }
+            return ResponseDTO.success(200,"success");
+        }else {
+            return ResponseDTO.success(201,"更新失败");
+        }
+    }
+    //提交店铺审核没通过
+    @Override
+    public ResponseDTO getNoReviewAuditing(AuditCommitVo vo) {
+        int res = backendStoreMapper.getReviewAuditingMapper(vo);
+        if (res > 0){
+            return ResponseDTO.success(200,"铺审审核状态更新成功");
+        }else {
+            return ResponseDTO.success(201,"铺审审核状态更新失败");
+        }
+    }
+
+    //查询审核店铺信息
+    @Override
+    public ResponseDTO getReviewStoreInfo(int auditId) {
+        PaymentAudit res = backendStoreMapper.getReviewStoreInfoMapper(auditId);
+        if (res != null){
+            return ResponseDTO.success(200,"success",res);
+        }else {
+            return ResponseDTO.success(201,"error");
         }
     }
 }

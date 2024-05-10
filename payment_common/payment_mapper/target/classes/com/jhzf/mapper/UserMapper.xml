@@ -38,7 +38,6 @@
     <update id="modifyPwd">
         UPDATE payment_user SET user_pwd = #{newPwd} WHERE user_id = #{userId};
     </update>
-
     <select id="selectUserMsg" resultType="com.jhzf.pojo.PaymentUser">
         select * from payment_user where user_pwd = #{oldPwd} and user_id = #{userId};
     </select>
@@ -98,8 +97,4 @@
     <select id="cashOutStoreInfo" resultType="com.jhzf.pojo.PaymentStore">
         select payment_store.* from payment_store where payment_store.store_id = #{storeId}
     </select>
-
-    <update id="authentication">
-        UPDATE payment_user SET user_is_authentication = 1 WHERE user_id = #{userId};
-    </update>
 </mapper>

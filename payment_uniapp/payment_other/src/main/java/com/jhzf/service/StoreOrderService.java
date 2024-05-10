@@ -8,4 +8,5 @@ public interface StoreOrderService {
     ResponseDTO getStoreMonthOrder(StoreOrderVo storeOrderVo);
     ResponseDTO getStoreDailyOrder(StoreOrderVo storeOrderVo);
     ResponseDTO getOrderDetail(StoreOrderVo storeOrderVo);
+    ResponseDTO getAbnormalOrder(int userId);
 }

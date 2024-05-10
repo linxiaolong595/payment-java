@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jhzf.mapper.WithdrawalMapper">
+    <!--提现订单审核-->
+    <update id="withdrawalAuditing">
+        UPDATE payment_payouts
+        SET payouts_status = #{payoutsStatus}, payouts_remarks = #{payoutsRemarks}
+        WHERE payouts_id = #{payoutsId}
+    </update>
+    <!--查询提现待审核订单-->
+    <select id="WithdrawalOlder" resultType="com.jhzf.pojo.PaymentPayouts">
+        SELECT pp.*,pu.*
+        FROM payment_payouts as pp
+        INNER JOIN payment_user as pu ON pp.payout_user_id = pu.user_id
+        <if test="payoutsNumber != null and payoutsNumber != ''">
+            AND pp.payouts_number = #{payoutsNumber}
+        </if>
+        <if test="userName != null and userName != ''">
+            AND pu.user_name LIKE CONCAT('%', #{userName}, '%')
+        </if>
+        <if test="payoutsStatus != null and payoutsStatus != ''">
+            AND pp.payouts_status = #{payoutsStatus}
+        </if>
+        <if test="payoutsTime != null and payoutsTime != ''">
+            AND pp.payouts_time >= DATE_SUB(NOW(), INTERVAL #{payoutsTime} DAY)
+        </if>
+    </select>
+    <!--查询提现订单详情-->
+    <select id="WithdrawalDetails" resultType="com.jhzf.pojo.PaymentPayouts">
+        SELECT t1.*,t2.*,t3.*
+        FROM payment_payouts as t1
+        LEFT JOIN payment_user as t2 on t1.payout_user_id = t2.user_id
+        LEFT JOIN payment_store as t3 on t1.payouts_store_id = t3.store_id
+        WHERE t1.payouts_id = #{payoutsId}
+    </select>
+</mapper>

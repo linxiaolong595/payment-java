@@ -74,4 +74,22 @@ public class StoreOrderServiceImpl implements StoreOrderService {
         }
         return ResponseDTO.error(0,"订单号错误，暂无订单");
     }
+    @Override
+    public ResponseDTO getAbnormalOrder(int userId) {
+        PaymentUser user = storeOrderMapper.selectUser(userId);
+        System.out.println(user.getUserAccountType());
+        if(user.getUserAccountType() == 1){
+            List<Integer> storeId = storeOrderMapper.selectPrimaryAccountStore(userId);
+            System.out.println(storeId + "主账号店铺");
+            List<PaymentOrder> orderList = storeOrderMapper.primaryAccountAbnormalOrder(storeId);
+            return ResponseDTO.success(200,"主账号获取异常订单",orderList);
+        }else if(user.getUserAccountType() == 2){
+            Integer storeId = storeOrderMapper.selectUserAccountStore(userId);
+            List<PaymentOrder> orderList = storeOrderMapper.songAccountAbnormalOrder(storeId);
+            System.out.println(storeId + "子账号店铺");
+            return ResponseDTO.success(200,"子账号获取异常订单",orderList);
+        }else{
+            return ResponseDTO.success(200,"您尚未入驻商户");
+        }
+    }
 }

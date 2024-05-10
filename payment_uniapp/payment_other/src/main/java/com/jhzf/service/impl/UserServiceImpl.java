@@ -54,11 +54,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ResponseDTO messageCodeLogin(String account, String code) {
-        int count = userMapper.selectUser(account);
-        if(count == 1){
+         PaymentUser user = userMapper.messageCodeLogin(account);
+        if(user != null){
             String messageCode = redisTemplate.opsForValue().get(account);
             if(code.equals(messageCode)){
-                return ResponseDTO.success(200,"登录成功",null);
+                return ResponseDTO.success(200,"登录成功",user);
             }else{
                 return ResponseDTO.error(0,"验证码错误");
             }
@@ -66,7 +66,6 @@ public class UserServiceImpl implements UserService {
             return ResponseDTO.error(0,"账号不存在,请先去注册");
         }
     }
-
 
     @Override
     public ResponseDTO modifyPwd(ModifyPwdVo vo) {
@@ -144,14 +143,23 @@ public class UserServiceImpl implements UserService {
         userMapper.updateStoreCashOutMoney(payOutVo.getStoreId(),cashOutMoney);
         return ResponseDTO.success(200, "提现成功", null);
     }
-
     @Override
-    public ResponseDTO authentication(String userId) {
-        int i = userMapper.authentication(userId);
-        if (i > 0){
-           return ResponseDTO.success(200,"认证成功",null);
-        }else {
-            return ResponseDTO.error(201,"认证失败");
+    public ResponseDTO resetPwd(ResetPwdVo resetPwdVo) {
+        int user = userMapper.selectUser(resetPwdVo.getAccount());
+        if(user == 1){
+            if(resetPwdVo.getPwd().equals(resetPwdVo.getConfirmPwd())){
+                String messageCode = redisTemplate.opsForValue().get(resetPwdVo.getAccount());
+                if(resetPwdVo.getCode().equals(messageCode)){
+                    userMapper.updateUserPwd(resetPwdVo.getAccount(), Md5.getString(resetPwdVo.getPwd()));
+                    return ResponseDTO.success(200,"修改成功");
+                }else{
+                    return ResponseDTO.error(202,"验证码输入错误");
+                }
+            }else{
+                return ResponseDTO.error(201,"两次输入的密码不一致");
+            }
+        }else{
+            return ResponseDTO.error(204,"用户不存在,请先去注册");
         }
     }
 }
